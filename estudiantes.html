@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estudiantes - Funintec</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu CSS personalizado -->
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    /* Estilos para la lista en la columna izquierda */
+    .left-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .left-list li {
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 18px !important;
+      line-height: 1em;
+      font-weight: 500;
+    }
+
+    /* Estilos para el cuadro informativo (más fino) */
+    .info-block {
+      /* Se define un ancho máximo para que sea más "fino" */
+      max-width: 350px;
+      background-color: #f2f2f2;
+      border-radius: 0 30px 0 30px;
+      overflow: hidden;
+      border-width: 0px;
+      border-style: solid;
+      border-color: #c3eef4;
+      padding-top: 29px !important;
+      padding-right: 19px !important;
+      padding-bottom: 29px !important;
+      padding-left: 19px !important;
+      min-height: 303px;
+      font-size: 14px;
+    }
+    .info-block h2,
+    .info-block p {
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7em;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ajuste para los botones y cuerpos del acordeón */
+    .accordion .accordion-button {
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 20px;
+    }
+    .accordion .accordion-body {
+      padding: 25px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar navbar-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+          <img src="assets/logo-unsam-funintec.svg" alt="Logo Funintec" height="50">
+        </a>
+        <!-- Botón hamburger -->
+        <button class="btn" id="menu-toggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MENÚ FULL SCREEN OVERLAY -->
+  <div id="fullscreen-menu" class="overlay">
+    <!-- Botón de cierre -->
+    <button id="menu-close" class="close-button">&times;</button>
+    <!-- Contenido del menú -->
+    <nav class="overlay-menu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">FUNINTEC</a>
+          <ul class="submenu">
+            <li><a href="/funintec.github.io/nosotros.html">NOSOTRO</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">VINCULAMOS</a>
+          <ul class="submenu">
+            <li><a href="/funintec.github.io/investigadores.html">INVESTIGADORES</a></li>
+            <li><a href="/funintec.github.io/estudiantes.html">ESTUDIANTES</a></li>
+            <li><a href="/funintec.github.io/empresas.html">EMPRESAS</a></li>
+            <li><a href="/funintec.github.io/emprendedores.html">EMPRENDEDORES</a></li>
+          </ul>
+        </li>
+        <li >
+          <a href="#" class="font-normal">CENTRO TECNOLÓGICO</a>
+         
+        </li>
+        <li >
+          <a href="/funintec.github.io/centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
+        </li>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">FUTUROS</a>
+          <ul class="submenu">
+            <li><a href="#">QUÉ ES FUTUROS</a></li>
+            <li><a href="#">FUTUROS URBANOS</a></li>
+            <li><a href="#">FUTUROS AGUA</a></li>
+            <li><a href="#">FUTUROS ENERGÍA</a></li>
+            <li><a href="#">FUTUROS HUELLAS AMBIENTALES</a></li>
+            <li><a href="#">PUBLICACIONES SERIE FUTUROS</a></li>
+            <li><a href="#">VIDEOS UN PRESENTE ALTERADO</a></li>
+            <li><a href="#">VIDEOS AMBIENTE Y DESARROLLO</a></li>
+          </ul>
+        </li>
+        <li><a href="#">CONTACTO</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- SECCIÓN DE IMÁGENES (Banner) -->
+  <section class="image-gif-container">
+    <img src="assets/estudiantesBanner.jpg" alt="Imagen principal">
+    <img src="assets/animachome.gif" alt="Animación GIF">
+  </section>
+
+  <!-- CONTENIDO INFERIOR: BLOQUE IZQUIERDO CON LISTA E INFO BLOCK; DERECHA: ACORDEONES -->
+  <section class="container-fluid my-5">
+    <div class="row align-items-start">
+      <!-- Columna izquierda: Lista y bloque informativo -->
+      <div class="col-md-4">
+        <!-- Lista vertical -->
+        <ul class="left-list">
+          <li class="title">VINCULAMOS</li>
+          <li>INVESTIGADORES</li>
+          <li>ESTUDIANTES</li>
+          <li>EMPRESAS</li>
+          <li>EMPRENDEDORES</li>
+        </ul>
+        <!-- Bloque informativo -->
+        <div class="info-block">
+          <h2>CREAMOS VALOR</h2>
+          <p>
+            Apoyamos la investigación, desarrollo, innovación y transferencia tecnológica. Incentivamos el espíritu emprendedor. Acompañamos la creación de empresas de base tecnológica. Brindamos soluciones a problemas tecnológicos y productivos. Agilizamos los procesos de gestión.
+          </p>
+        </div>
+      </div>
+      <!-- Columna derecha: Acordeón con 3 ítems -->
+      <div class="col-md-8">
+        <div class="accordion" id="accordionEstudiantes">
+          <!-- Ítem 1: Transferí conocimientos (arranca desplegado) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTransferir">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                      data-bs-target="#collapseTransferir" aria-expanded="true" 
+                      aria-controls="collapseTransferir">
+                      Descubrí tu espíritu emprendedor
+              </button>
+            </h2>
+            <div id="collapseTransferir" class="accordion-collapse collapse show" 
+                 aria-labelledby="headingTransferir" data-bs-parent="#accordionEstudiantes">
+              <div class="accordion-body">
+                <p>
+                    FUNINTEC es el puente que la Universidad de San Martín pone en tu camino para que concretes tus inquietudes. Como primer paso te ayudará a descubrir tu vocación emprendedora a través de FUNINTEC Labs, el programa de emprendedorismo de FUNINTEC y UNSAM. A través de charlas, entrevistas y cursos de formación de emprendedores, te abrirá la puerta al mundo del emprendimiento innovador.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Ítem 2:Llevá tus proyectos a la práctica(arranca cerrado, sin contenido) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingProtege">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                      data-bs-target="#collapseProtege" aria-expanded="false" 
+                      aria-controls="collapseProtege">
+                      Llevá tus proyectos a la práctica
+              </button>
+            </h2>
+            <div id="collapseProtege" class="accordion-collapse collapse" 
+                 aria-labelledby="headingProtege" data-bs-parent="#accordionEstudiantes">
+              <div class="accordion-body">
+                <!-- Sin contenido -->
+              </div>
+            </div>
+          </div>
+          <!-- Ítem 3: Encontrá financiamiento para tus proyectos (arranca cerrado, sin contenido) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingRecursos">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                      data-bs-target="#collapseRecursos" aria-expanded="false" 
+                      aria-controls="collapseRecursos">
+                Encontrá financiamiento para tus proyectos
+              </button>
+            </h2>
+            <div id="collapseRecursos" class="accordion-collapse collapse" 
+                 aria-labelledby="headingRecursos" data-bs-parent="#accordionEstudiantes">
+              <div class="accordion-body">
+                <!-- Sin contenido -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- Fin columna derecha -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <!-- Sección superior -->
+    <div class="footer__top">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="footer__heading">
+              <strong>EMPRENDEDORES<br>Te acompañamos</strong>
+            </h2>
+            <a href="https://web.archive.org/web/20240811145931/https://www.funintec.org.ar/formulario/" class="footer__btn">
+              Contactanos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Sección inferior -->
+    <div class="footer__bottom">
+      <div class="container text-center">
+        <p class="footer__copy">
+          Copyright 
+          <script>document.write(new Date().getFullYear())</script>
+          2024 | Funintec | Universidad Nacional de San Martin 
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script type="module" src="components/header.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script para controlar el overlay y submenús -->
+  <script>
+    // Control del overlay del menú
+    const menuToggle = document.getElementById('menu-toggle');
+    const fullscreenMenu = document.getElementById('fullscreen-menu');
+    const menuClose = document.getElementById('menu-close');
+
+    menuToggle.addEventListener('click', () => {
+      fullscreenMenu.classList.add('active');
+    });
+
+    menuClose.addEventListener('click', () => {
+      fullscreenMenu.classList.remove('active');
+    });
+
+    // Control de submenús
+    document.querySelectorAll('.has-submenu > a').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.parentElement.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
