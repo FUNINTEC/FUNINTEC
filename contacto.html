@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estudiantes - Funintec</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu CSS personalizado -->
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    /* Estilos para la lista en la columna izquierda */
+    .left-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .left-list li {
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 18px !important;
+      line-height: 1em;
+      font-weight: 500;
+    }
+    /* Estilos para el cuadro informativo (más fino) */
+    .info-block {
+      /* Se define un ancho máximo para que sea más "fino" */
+      max-width: 350px;
+      background-color: #f2f2f2;
+      border-radius: 0 30px 0 30px;
+      overflow: hidden;
+      border-width: 0px;
+      border-style: solid;
+      border-color: #c3eef4;
+      padding-top: 29px !important;
+      padding-right: 19px !important;
+      padding-bottom: 29px !important;
+      padding-left: 19px !important;
+      min-height: 303px;
+      font-size: 14px;
+    }
+    .info-block h2,
+    .info-block p {
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7em;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ajuste para los botones y cuerpos del acordeón */
+    .accordion .accordion-button {
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 20px;
+    }
+    .accordion .accordion-body {
+      padding: 25px;
+    }
+    /* -------------------------------------------------
+   1) Fuente Roboto para todo el formulario
+-------------------------------------------------- */
+#funintec-form-section {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300; /* Roboto Light para texto normal */
+  color: #333333;   /* Color gris oscuro similar al original */
+  line-height: 1.5;
+}
+
+/* Título h2 usa peso 400 (regular) */
+#funintec-form-section .funintec-form__title {
+  font-weight: 400;
+  font-size: 1.75rem; /* 28px aprox. */
+  color: #444444;
+}
+
+/* Párrafos descriptivos */
+#funintec-form-section .funintec-form__info {
+  font-size: 24px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: #666;
+}
+#funintec-form-section .funintec-form__info_last {
+  font-size: 18px;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  color: #666;
+}
+/* -------------------------------------------------
+   2) Etiquetas (labels) y asteriscos rojos
+-------------------------------------------------- */
+.funintec-form__label {
+  display: block;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+/* Asterisco en rojo */
+.funintec-form__label .text-danger {
+  color: #d9534f; /* rojo burdeos apagado */
+  margin-left: 0.25rem;
+}
+
+/* -------------------------------------------------
+   3) Inputs y Textareas
+-------------------------------------------------- */
+.funintec-form__input,
+.funintec-form__textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;       /* 16px */
+  font-weight: 300;      /* Roboto Light para que se vea igual */
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem; /* 4px */
+  background-color: #ffffff;
+  color: #333333;
+  transition: border-color 0.2s ease;
+}
+
+.funintec-form__input:focus,
+.funintec-form__textarea:focus {
+  outline: none;
+  border-color: #888888;
+  box-shadow: 0 0 4px rgba(136, 136, 136, 0.2);
+}
+
+/* La altura de las textareas igual que inputs: */
+.funintec-form__textarea {
+  resize: vertical;
+}
+
+/* -------------------------------------------------
+   4) Grupos de campos
+-------------------------------------------------- */
+.funintec-form__group {
+  margin-bottom: 1.25rem; /* espacio entre campos */
+}
+
+/* -------------------------------------------------
+   5) Botón de envío
+-------------------------------------------------- */
+.funintec-form__submit {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+  background-color: #0056b3; /* azul oscuro similar al original */
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.funintec-form__submit:hover {
+  background-color: #003f7f; /* versión más oscura al pasar el mouse */
+}
+
+/* -------------------------------------------------
+   6) Responsivo (si querés ajustar márgenes en mobile)
+-------------------------------------------------- */
+@media (max-width: 576px) {
+  #funintec-form-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .funintec-form__title {
+    font-size: 1.5rem; /* 24px en pantallas pequeñas */
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar navbar-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/index.html">
+          <img src="assets/logo_funintec.png" alt="Logo Funintec" height="100">
+        </a>
+        <!-- Botón hamburger -->
+        <button class="btn" id="menu-toggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MENÚ FULL SCREEN OVERLAY -->
+  <div id="fullscreen-menu" class="overlay">
+    <!-- Botón de cierre -->
+    <button id="menu-close" class="close-button">&times;</button>
+    <!-- Contenido del menú -->
+    <nav class="overlay-menu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">FUNINTEC</a>
+          <ul class="submenu">
+            <li><a href="/NOSOTROS.html">NOSOTROS</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">VINCULAMOS</a>
+          <ul class="submenu">
+            <li><a href="/investigadores.html">INVESTIGADORES</a></li>
+            <li><a href="/estudiantes.html">ESTUDIANTES</a></li>
+            <li><a href="/empresas.html">EMPRESAS</a></li>
+            <li><a href="/emprendedores.html">EMPRENDEDORES</a></li>
+          </ul>
+        </li>
+        <li >
+          <a href="#" class="font-normal">CENTRO TECNOLÓGICO</a>
+         
+        </li>
+        <li >
+          <a href="/centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
+        </li>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">FUTUROS</a>
+          <ul class="submenu">
+            <li><a href="#">QUÉ ES FUTUROS</a></li>
+            <li><a href="#">FUTUROS URBANOS</a></li>
+            <li><a href="#">FUTUROS AGUA</a></li>
+            <li><a href="#">FUTUROS ENERGÍA</a></li>
+            <li><a href="#">FUTUROS HUELLAS AMBIENTALES</a></li>
+            <li><a href="#">PUBLICACIONES SERIE FUTUROS</a></li>
+            <li><a href="#">VIDEOS UN PRESENTE ALTERADO</a></li>
+            <li><a href="#">VIDEOS AMBIENTE Y DESARROLLO</a></li>
+          </ul>
+        </li>
+        <li><a href="/contacto.html">CONTACTO</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- SECCIÓN DE IMÁGENES (Banner) -->
+  <section class="image-gif-container">
+    <img src="assets/cabemprendevid.jpg" alt="Imagen principal">
+    <img src="assets/animachome.gif" alt="Animación GIF">
+  </section>
+
+  <!-- CONTENIDO INFERIOR: BLOQUE IZQUIERDO CON LISTA E INFO BLOCK; DERECHA: ACORDEONES -->
+<section class="container my-5" id="funintec-form-section">
+
+  <p class="funintec-form__info">
+    <strong class="font-bold">FUNINTEC</strong> es la Fundación de la Universidad Nacional de San Martín 
+    desde el año 2010. En el año 2012 fue reconocida como Unidad de 
+    Vinculación Tecnológica por el MINCyT y CONICET.
+  </p>
+  <p class="funintec-form__info">
+    Es una de las incubadoras del Ministerio de Desarrollo Productivo de la Nación 
+    y una de las entidades de apoyo al desarrollo emprendedor (EEAE).
+  </p>
+  <p class="funintec-form__info_last">
+    Para que te conozcamos y contactemos, completá el formulario. 
+    Los campos necesarios están marcados con <strong>*</strong>:
+  </p>
+
+  <form
+  action="https://formspree.io/f/xwpbpgka"
+  method="POST"
+    enctype="text/plain"
+    class="funintec-form"
+  >
+    <!-- Nombre y apellido -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-name" class="funintec-form__label"
+        >Nombre y apellido<span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="funintec-name"
+        name="Nombre y Apellido"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Correo electrónico -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-email" class="funintec-form__label"
+        >Correo electrónico<span class="text-danger">*</span></label
+      >
+      <input
+        type="email"
+        id="funintec-email"
+        name="Email"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-phone" class="funintec-form__label"
+        >Teléfono (Celular o de línea incluyendo el código de área)
+        <span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="funintec-phone"
+        name="Telefono"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Proyecto -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-project" class="funintec-form__label"
+        >Proyecto (Nombre del proyecto y/o de la empresa o emprendimiento)
+        <span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="funintec-project"
+        name="Proyecto"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Descripción del proyecto -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-desc" class="funintec-form__label"
+        >Descripción del proyecto (¿Cuál es el producto o servicio que proporcionan
+        o quieren desarrollar?)<span class="text-danger">*</span></label
+      >
+      <textarea
+        id="funintec-desc"
+        name="Descripcion del proyecto"
+        class="funintec-form__textarea"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Innovación -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-innov" class="funintec-form__label"
+        >Innovación (¿Su proyecto incluye alguna innovación en el producto o en su
+        cadena de producción? ¿Incorpora nuevos conocimientos, ciencia o tecnología?)</label
+      >
+      <textarea
+        id="funintec-innov"
+        name="Innovacion"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Impacto -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-impact" class="funintec-form__label"
+        >Impacto (¿Su proyecto genera algún tipo de impacto: económico, social o 
+        ambiental, u otro en relación a los Objetivos de Desarrollo Sostenible?)</label
+      >
+      <textarea
+        id="funintec-impact"
+        name="Impacto"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Perspectiva de género -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-gender" class="funintec-form__label"
+        >Perspectiva de género (¿Cuál es la composición del equipo respecto a género? 
+        ¿Su emprendimiento, el producto ofrecido, su comercialización o su comunicación 
+        impactan en la mejora de las condiciones de las mujeres y disidencias?)</label
+      >
+      <textarea
+        id="funintec-gender"
+        name="Perspectiva de genero"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Pedido de acompañamiento -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-acomp" class="funintec-form__label"
+        >Pedido de acompañamiento (¿En qué necesitan que les acompañemos o asesoremos? 
+        ¿Vinculación, transferencia de conocimientos, financiamiento u otros?)</label
+      >
+      <textarea
+        id="funintec-acomp"
+        name="Acompanamiento"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Asistencias previas -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-prev" class="funintec-form__label"
+        >Asistencias previas (¿Obtuvieron asistencia estatal o privada previa 
+        para el proyecto? ¿En qué consistió?)<span class="text-danger">*</span></label
+      >
+      <textarea
+        id="funintec-prev"
+        name="Asistencias previas"
+        class="funintec-form__textarea"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Equipo emprendedor -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-team" class="funintec-form__label"
+        >Empresa o equipo emprendedor (¿Quiénes son ustedes? ¿Por qué están en
+        condiciones de llevar adelante este proyecto?)<span class="text-danger">*</span></label
+      >
+      <textarea
+        id="funintec-team"
+        name="Equipo emprendedor"
+        class="funintec-form__textarea"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Antigüedad -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-age" class="funintec-form__label"
+        >Antigüedad de la empresa o persona emprendedora (¿Cuál fue la primera fecha 
+        de facturación en el rubro del proyecto?)<span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="funintec-age"
+        name="Antiguedad"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Ubicación -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-location" class="funintec-form__label"
+        >Ubicación (¿Dónde está radicado el proyecto?)<span class="text-danger">*</span></label
+      >
+      <input
+        type="text"
+        id="funintec-location"
+        name="Ubicacion"
+        class="funintec-form__input"
+        required
+      />
+    </div>
+
+    <!-- Instalaciones u oficinas -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-space" class="funintec-form__label"
+        >Instalaciones u oficinas (¿Disponen de espacio físico para llevar adelante 
+        el proyecto? ¿Es propio, alquilado o cedido? ¿Necesitan espacio de incubación?)</label
+      >
+      <textarea
+        id="funintec-space"
+        name="Instalaciones"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Enlaces -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-links" class="funintec-form__label"
+        >Enlaces (De página web, redes u otros de la empresa o emprendimientos que 
+        consideren relevantes)<span class="text-danger">*</span></label
+      >
+      <textarea
+        id="funintec-links"
+        name="Enlaces"
+        class="funintec-form__textarea"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Comunidad UNSAM -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-community" class="funintec-form__label"
+        >Comunidad UNSAM (¿Son alumnes o egresades, docentes, no docentes, 
+        investigadores, etc. de UNSAM?)<span class="text-danger">*</span></label
+      >
+      <textarea
+        id="funintec-community"
+        name="Comunidad UNSAM"
+        class="funintec-form__textarea"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <!-- Motivo del contacto -->
+    <div class="funintec-form__group mb-3">
+      <label for="funintec-reason" class="funintec-form__label"
+        >Motivo del contacto con FUNINTEC (¿Por qué eligieron contactarse con FUNINTEC? 
+        ¿Cómo llegaron a la Fundación?)</label
+      >
+      <textarea
+        id="funintec-reason"
+        name="Motivo del contacto"
+        class="funintec-form__textarea"
+        rows="4"
+      ></textarea>
+    </div>
+    <div>
+      CONTACTO: sebas.savino@funintec.org.ar
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="funintec-form__group text-center mt-4">
+      <button type="submit" class="funintec-form__submit">Enviar</button>
+    </div>
+  </form>
+</section>
+
+  <!-- SCRIPTS -->
+  <script type="module" src="components/header.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script para controlar el overlay y submenús -->
+  <script>
+    // Control del overlay del menú
+    const menuToggle = document.getElementById('menu-toggle');
+    const fullscreenMenu = document.getElementById('fullscreen-menu');
+    const menuClose = document.getElementById('menu-close');
+
+    menuToggle.addEventListener('click', () => {
+      fullscreenMenu.classList.add('active');
+    });
+
+    menuClose.addEventListener('click', () => {
+      fullscreenMenu.classList.remove('active');
+    });
+
+    // Control de submenús
+    document.querySelectorAll('.has-submenu > a').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.parentElement.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
