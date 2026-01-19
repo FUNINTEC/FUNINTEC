@@ -1,0 +1,14 @@
+{
+  "name": "funintec",
+  "version": "1.0.0",
+  "description": "Sitio web Funintec",
+  "scripts": {
+    "build-css": "sass styles/main.scss styles/main.css",
+    "watch-css": "sass --watch styles/main.scss:styles/main.css",
+    "build": "npm run build-css"
+  },
+  "devDependencies": {
+    "sass": "^1.69.0"
+  }
+}
+
