@@ -135,7 +135,7 @@ $transition-slow: 300ms ease;
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23869ec1' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='https://www.w3.org/2000/svg'%3E%3Cpath stroke='%23869ec1' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 // =====================
@@ -254,7 +254,7 @@ $transition-slow: 300ms ease;
   // Sección superior: fondo, imagen de fondo y altura fija (560px)
   &__top {
     background-color: $cyan;
-    background-image: url('https://web.archive.org/web/20240811145931im_/https://www.funintec.org.ar/_dev/wp-content/uploads/futuros-alterados-trama.png');
+    background-image: url('https://www.funintec.org.ar/_dev/wp-content/uploads/futuros-alterados-trama.png');
     background-blend-mode: multiply;
     height: 560px;
     display: flex;
