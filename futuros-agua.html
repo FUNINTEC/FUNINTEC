@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Futuros Agua - Funintec</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    .futuros-content-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    .futuros-sidebar {
+      border: 1px solid #e0e0e0;
+      padding: 0;
+    }
+
+    .futuros-sidebar h4 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #333;
+      padding: 15px 20px;
+      margin: 0;
+      background: #f5f5f5;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .futuros-sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .futuros-sidebar ul li a {
+      display: block;
+      padding: 10px 20px;
+      color: #666;
+      text-decoration: none;
+      font-size: 13px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.3s, background 0.3s;
+    }
+
+    .futuros-sidebar ul li a:hover,
+    .futuros-sidebar ul li a.active {
+      color: #2ea3f2;
+      background: #fafafa;
+    }
+
+    .futuros-title {
+      font-size: 26px;
+      font-weight: 300;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .futuros-title strong {
+      font-weight: 700;
+    }
+
+    .futuros-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+      padding-bottom: 0;
+    }
+
+    .futuros-text h3 {
+      font-size: 22px;
+      font-weight: 500;
+      color: #333;
+      padding-bottom: 10px;
+      line-height: 1.7em;
+    }
+
+    .futuros-text p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7em;
+      padding-bottom: 1em;
+    }
+
+    .futuros-text p:last-of-type {
+      padding-bottom: 0;
+    }
+
+    .futuros-text a {
+      color: #2ea3f2;
+      text-decoration: none;
+    }
+
+    .futuros-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Slider Escuela de Posgrado */
+    .agua-slider {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .agua-slider .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .agua-slider .slide.active {
+      opacity: 1;
+    }
+
+    .agua-slider .slide-overlay {
+      background: rgba(0,0,0,0.45);
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .agua-slider .slide-overlay h2 {
+      color: #fff;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .agua-slider .slide-overlay p {
+      color: #fff;
+      font-size: 16px;
+      max-width: 700px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .agua-slider .slide-overlay .btn-slider {
+      display: inline-block;
+      padding: 10px 25px;
+      border: 2px solid #fff;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .agua-slider .slide-overlay .btn-slider:hover {
+      background: #fff;
+      color: #333;
+    }
+
+    /* Citas intercaladas */
+    .agua-quote {
+      padding: 50px 20px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .agua-quote blockquote {
+      font-size: 18px;
+      font-style: italic;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .agua-quote .quote-author {
+      font-size: 14px;
+      color: #333;
+      font-weight: 700;
+    }
+
+    .agua-quote .quote-author span {
+      font-weight: 400;
+      color: #666;
+    }
+
+    /* Secciones fullwidth con imagen de fondo */
+    .agua-fullwidth-section {
+      position: relative;
+      width: 100%;
+      min-height: 450px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agua-fullwidth-section .section-overlay {
+      background: rgba(0,0,0,0.5);
+      width: 100%; height: 100%;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .agua-fullwidth-section h1 {
+      color: #fff;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .agua-fullwidth-section p {
+      color: #fff;
+      font-size: 16px;
+      max-width: 700px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .agua-fullwidth-section .btn-section {
+      display: inline-block;
+      padding: 12px 30px;
+      border: 2px solid #fff;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .agua-fullwidth-section .btn-section:hover {
+      background: #fff;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .agua-slider {
+        height: 350px;
+      }
+      .agua-slider .slide-overlay h2 {
+        font-size: 22px;
+      }
+      .agua-fullwidth-section {
+        min-height: 300px;
+      }
+      .agua-fullwidth-section .section-overlay {
+        min-height: 300px;
+      }
+      .agua-fullwidth-section h1 {
+        font-size: 26px;
+      }
+      .agua-quote blockquote {
+        font-size: 15px;
+      }
+    }
+
+    .follow-section {
+      background-image: url('assets/futuros-alterados-trama.png');
+      background-size: cover;
+      background-position: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .follow-section p {
+      font-weight: 700;
+      font-size: 33px;
+      line-height: 1.1em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: opacity 0.3s;
+    }
+
+    .social-icons a:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .futuros-sidebar {
+        margin-bottom: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar navbar-light">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/logo_funintec.png" alt="Logo Funintec" height="100">
+        </a>
+        <button class="btn" id="menu-toggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MENÚ FULL SCREEN OVERLAY -->
+  <div id="fullscreen-menu" class="overlay">
+    <button id="menu-close" class="close-button">&times;</button>
+    <nav class="overlay-menu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">FUNINTEC</a>
+          <ul class="submenu">
+            <li><a href="nosotros.html">NOSOTROS</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#" class="font-bold">VINCULAMOS</a>
+          <ul class="submenu">
+            <li><a href="investigadores.html">INVESTIGADORES</a></li>
+            <li><a href="estudiantes.html">ESTUDIANTES</a></li>
+            <li><a href="empresas.html">EMPRESAS</a></li>
+            <li><a href="emprendedores.html">EMPRENDEDORES</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="centro-tecnologico.html" class="font-normal">CENTRO TECNOLÓGICO</a>
+        </li>
+        <li>
+          <a href="centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
+        </li>
+        <li class="has-submenu">
+          <a href="futuros.html" class="font-bold">FUTUROS</a>
+          <ul class="submenu">
+            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
+            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
+            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
+            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
+            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
+            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
+            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
+            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
+          </ul>
+        </li>
+        <li><a href="contacto.html">CONTACTO</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- HERO IMAGE -->
+  <section class="image-gif-container">
+    <img src="assets/futuroscab.jpg" alt="Futuros Agua">
+    <img src="assets/home_gallery/animachome.gif" alt="Animación GIF">
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL: Sidebar 1/4 + Contenido 3/4 -->
+  <div class="futuros-content-wrapper">
+    <div class="row">
+      <!-- Sidebar izquierda -->
+      <div class="col-lg-3">
+        <div class="futuros-sidebar">
+          <h4>FUTUROS</h4>
+          <ul>
+            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
+            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
+            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
+            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
+            <li><a href="futuros-agua.html" class="active">FUTUROS AGUA</a></li>
+            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
+            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
+            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contenido principal derecha -->
+      <div class="col-lg-9">
+        <p class="futuros-title">FUTUROS <strong>AGUA</strong></p>
+
+        <div class="futuros-text">
+          <h3>El agua es vital para la existencia de la vida sobre la Tierra; sus servicios ecosistémicos son de un valor incalculable. Su uso intensivo y la intervención humana en el ciclo hidrológico, en un contexto ambiental fuertemente afectado por la actividad antrópica, nos enfrenta a interrogantes sobre la disponibilidad y el uso del recurso.</h3>
+          <p>Entre el 17 y el 22 de octubre de 2016 se dictó la Escuela de Posgrado Futuros Agua+Humedales y se realizó el evento público Espacio de Reflexión Futuros Agua en la Universidad Nacional de San Martín.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDER: Escuela de Posgrado Futuros Agua+Humedales -->
+  <div class="agua-slider" id="agua-slider">
+    <div class="slide active" style="background-image: url('assets/humedal-visita.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+        <a href="#expositores" class="btn-slider">Ver más</a>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/humedales-visita-2.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+        <a href="#reflexion" class="btn-slider">Ver más</a>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/escuela-posgrado1.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/escuela-posgrado3.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/escuela-posgrado2.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/tundisi-con-alumnos.jpg');">
+      <div class="slide-overlay">
+        <h2>Escuela de Posgrado Futuros Agua+Humedales</h2>
+        <p>Se dictaron 50 horas de clases que incluyeron una salida de campo a un humedal, el Delta del Paraná y la presentación de pósteres con los trabajos de los asistentes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CITA: Rubén Quintana -->
+  <div class="agua-quote">
+    <blockquote>"La situación de los humedales es crítica. Los humedales son ecosistemas fundamentales porque funcionan como grandes reservorios de agua. Sin embargo, son considerados tierras improductivas y en poco tiempo podrían desaparecer."</blockquote>
+    <p class="quote-author">Rubén Quintana, <span>expositor Futuros Agua</span></p>
+  </div>
+
+  <!-- SECCIÓN: 25 expositores -->
+  <section class="agua-fullwidth-section" id="expositores" style="background-image: url('assets/banner-expo-futuros.jpg');">
+    <div class="section-overlay">
+      <h1>25 expositores nacionales y extranjeros</h1>
+      <a href="expositores-2019.html" class="btn-section">Más información</a>
+    </div>
+  </section>
+
+  <!-- CITA: Claudio Baigún -->
+  <div class="agua-quote">
+    <blockquote>"El agua dulce es uno de los grandes temas del futuro, porque es finita y la tasa de crecimiento de la población aumenta año a año. Además, si cambian las condiciones climáticas y continúa la tendencia actual hacia una mayor desertificación, va a haber menos agua en el planeta."</blockquote>
+    <p class="quote-author">Claudio Baigún, <span>expositor Futuros Agua.</span></p>
+  </div>
+
+  <!-- SECCIÓN: Espacio de Reflexión -->
+  <section class="agua-fullwidth-section" id="reflexion" style="background-image: url('assets/espacio-reflexion-slide-1.jpg');">
+    <div class="section-overlay">
+      <h1>Espacio de reflexión ¿Cuál es el futuro del agua?</h1>
+      <p>Expertos internacionales debatieron sobre el futuro del agua moderados por la periodista científica Nora Bär.</p>
+      <a href="expositores-2019.html" class="btn-section">Más información</a>
+    </div>
+  </section>
+
+  <!-- CITA: Luis Vives -->
+  <div class="agua-quote">
+    <blockquote>"Es necesario cuidar, respetar y valorar el agua. El principal desafío va a ser la calidad, más que la cantidad, debido a la contaminación de diferentes tipos, como la rural, por el uso de agroquímicos y los efluentes de los sistemas productivos. ¿Cómo vamos a cuidar el medio ambiente de cara a la producción agropecuaria?"</blockquote>
+    <p class="quote-author">Luis Vives, <span>expositor de Futuros Agua.</span></p>
+  </div>
+
+  <!-- SECCIÓN: Estudiantes en Futuros Agua -->
+  <section class="agua-fullwidth-section" style="background-image: url('assets/estudiantes-futuros-manzo1.jpg');">
+    <div class="section-overlay">
+      <h1>Estudiantes en Futuros Agua</h1>
+      <p>Participaron egresados de carreras de grado universitario de disciplinas científicas, que desarrollan tareas en áreas de investigación científico-tecnológicas o se desempeñan en instituciones y empresas relacionadas con la temática del agua.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN "Seguí a Futuros" -->
+  <section class="follow-section">
+    <p>Seguí a Futuros</p>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/programafuturos/" class="icon-instagram" target="_blank" rel="noopener" title="Seguir en Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+        </svg>
+      </a>
+      <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="icon-youtube" target="_blank" rel="noopener" title="Seguir en Youtube">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="components.js"></script>
+
+  <!-- JS menú hamburger -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
+    const fullscreenMenu = document.getElementById('fullscreen-menu');
+
+    menuToggle.addEventListener('click', function() {
+      fullscreenMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    menuClose.addEventListener('click', function() {
+      fullscreenMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Slider automático
+    const slides = document.querySelectorAll('#agua-slider .slide');
+    if (slides.length > 0) {
+      let currentSlide = 0;
+      setInterval(function() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }, 4000);
+    }
+
+    const submenus = document.querySelectorAll('.has-submenu > a');
+    submenus.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const parent = this.parentElement;
+        parent.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

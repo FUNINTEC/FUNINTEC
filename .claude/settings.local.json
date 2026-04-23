@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed 's/<[^>]*>//g')",
+      "Bash(grep -v \"^$\")",
+      "Bash(python3:*)",
+      "Bash(xargs grep:*)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Bash(ls \"C:/Users/rowoc/OneDrive/Documentos/apps/FUNINTEC/\"*.html)",
+      "Bash(xargs -I{} basename {})",
+      "Bash(nslookup:*)",
+      "Bash(curl:*)",
+      "Bash(grep -l \"footer\" C:/Users/rowoc/OneDrive/Documentos/apps/FUNINTEC/*.html)",
+      "Bash(grep:*)",
+      "WebFetch(domain:web.archive.org)",
+      "Bash(mkdir:*)",
+      "Bash(ls -la \"C:\\\\Users\\\\rowoc\\\\OneDrive\\\\Documentos\\\\apps\\\\FUNINTEC\\\\assets\\\\home_gallery\\\\animac\"*)"
+    ]
+  }
+}

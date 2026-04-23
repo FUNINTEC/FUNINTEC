@@ -1,0 +1,13 @@
+HTTrack3.49-2+htsswf+htsjava launched on Sat, 28 Mar 2026 20:37:47 at https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/programa-futuros/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/programa-futuros/ -O1 "C:\My Web Sites\funintec" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+20:38:53	Error: 	"NOT FOUND" (404) at link https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/_dev/wp-content/et-cache/440/et-divi-dynamic-tb-6473-440-late.css?ver=1721308681 (from https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/programa-futuros/)
+20:38:53	Error: 	"NOT FOUND" (404) at link https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/_dev/wp-content/et-cache/440/et-divi-dynamic-tb-6473-440.css?ver=1721308681 (from https://web.archive.org/web/20240723040931/https://www.funintec.org.ar/programa-futuros/)
+
+HTTrack Website Copier/3.49-2 mirror complete in 1 minutes 6 seconds : 40 links scanned, 37 files written (1592627 bytes overall) [737166 bytes received at 11169 bytes/sec], 1763974 bytes transferred using HTTP compression in 29 files, ratio 28%, 7.3 requests per connection
+(2 errors, 0 warnings, 0 messages)
