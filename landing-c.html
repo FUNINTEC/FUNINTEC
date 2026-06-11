@@ -124,9 +124,9 @@
     .centro-card a { color: #4f46e5; font-weight: 700; font-size: 14px; text-decoration: none; }
 
     /* CTA */
-    .cta-section { background: linear-gradient(135deg, #4f46e5 0%, #7c6fef 100%); padding: 110px 0; text-align: center; }
-    .cta-section h2 { font-size: clamp(32px, 5vw, 62px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; color: white; margin-bottom: 18px; }
-    .cta-section p { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 44px; }
+    .cta-final { padding: 120px 0; text-align: center; background: white; }
+    .cta-final h2 { font-size: clamp(28px, 4.5vw, 52px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 32px; color: #0a1428; }
+    .cta-final h2 strong { display: block; font-size: 0.55em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-bottom: 10px; }
     .btn-white { display: inline-block; background: white; color: #4f46e5; border-radius: 100px; padding: 18px 52px; font-weight: 800; font-size: 17px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
     .btn-white:hover { color: #4f46e5; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
 
@@ -374,11 +374,10 @@
   </section>
 
   <!-- CTA FINAL -->
-  <section class="cta-section">
+  <section class="cta-final">
     <div class="container">
-      <h2>Empezá<br>el vínculo.</h2>
-      <p>Contanos en qué estás trabajando. Te respondemos.</p>
-      <a href="contacto.html" class="btn-white">Contactanos</a>
+      <h2><strong>EMPRENDEDORES</strong>Te acompañamos</h2>
+      <a href="contacto.html" style="display:inline-block;background:#4f46e5;color:white;border-radius:100px;padding:16px 48px;font-weight:700;font-size:16px;text-decoration:none;">Contactanos</a>
     </div>
   </section>
 
@@ -438,7 +437,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="components.js"></script>
   <script>
     // Nav overlay
     document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));

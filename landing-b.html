@@ -135,9 +135,9 @@
     .centro-dark a { color: #00d4ff; font-size: 14px; font-weight: 700; text-decoration: none; }
 
     /* CTA FINAL */
-    .cta-section { background: #00d4ff; padding: 120px 0; text-align: center; }
-    .cta-section h2 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; color: #080c14; letter-spacing: -2px; line-height: 1.0; margin-bottom: 20px; }
-    .cta-section p { font-size: 18px; color: rgba(8,12,20,0.6); margin-bottom: 48px; }
+    .cta-final { padding: 120px 0; text-align: center; background: #080c14; }
+    .cta-final h2 { font-size: clamp(28px, 4.5vw, 52px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 32px; color: white; }
+    .cta-final h2 strong { display: block; font-size: 0.55em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px; }
     .btn-dark-solid {
       display: inline-block; background: #080c14; color: white;
       border-radius: 100px; padding: 18px 52px;
@@ -347,11 +347,10 @@
   </section>
 
   <!-- CTA FINAL -->
-  <section class="cta-section">
+  <section class="cta-final">
     <div class="container">
-      <h2>¿Trabajamos<br>juntos?</h2>
-      <p>Contanos tu proyecto. Te respondemos.</p>
-      <a href="contacto.html" class="btn-dark-solid">Contactanos</a>
+      <h2><strong>EMPRENDEDORES</strong>Te acompañamos</h2>
+      <a href="contacto.html" class="btn-electric">Contactanos</a>
     </div>
   </section>
 
@@ -411,7 +410,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="components.js"></script>
   <script>
     document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
     document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
