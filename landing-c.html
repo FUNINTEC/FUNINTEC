@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FUNINTEC — Propuesta C: ¿Quién sos?</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: white; color: #0d0d0d; overflow-x: hidden; }
+
+    /* NAV */
+    .site-nav { position: sticky; top: 0; z-index: 100; background: white; border-bottom: 1px solid #f0f0f0; padding: 16px 0; }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    #menu-toggle { background: none; border: none; cursor: pointer; padding: 8px; }
+
+    /* OVERLAY */
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,10,30,0.97); opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease; z-index: 9999; }
+    .overlay.active { opacity: 1; visibility: visible; }
+    .close-button { position: absolute; top: 28px; right: 36px; font-size: 36px; background: none; border: none; color: white; cursor: pointer; line-height: 1; }
+    .overlay-nav { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+    .overlay-nav a { display: block; color: white; font-size: 28px; font-weight: 800; text-decoration: none; padding: 10px 0; letter-spacing: -0.5px; transition: color 0.2s; }
+    .overlay-nav a:hover, .overlay-nav a.accent { color: #4f46e5; }
+
+    /* HERO */
+    .hero { padding: 80px 0 60px; background: white; }
+    .hero-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #4f46e5; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(38px, 6.5vw, 80px); font-weight: 800; line-height: 1.0; letter-spacing: -2px; margin-bottom: 22px; }
+    .hero-sub { font-size: 17px; color: #777; line-height: 1.75; margin-bottom: 48px; max-width: 480px; }
+
+    /* SELECTOR */
+    .selector-hint { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #bbb; margin-bottom: 14px; }
+    .selector-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .sel-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: white; border: 2px solid #e8e8e8; border-radius: 100px;
+      padding: 12px 22px; font-size: 15px; font-weight: 700; color: #555;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s;
+      font-family: inherit;
+    }
+    .sel-btn:hover { border-color: #4f46e5; color: #4f46e5; }
+    .sel-btn.active { background: #4f46e5; border-color: #4f46e5; color: white; }
+    .sel-btn .icon { font-size: 17px; line-height: 1; }
+
+    /* HERO IMAGE (right col) */
+    .hero-img-wrap { border-radius: 24px; overflow: hidden; }
+    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4/3; }
+
+    /* PANELS */
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    .panel-inv  { background: #f4f3ff; }
+    .panel-est  { background: #eff8ff; }
+    .panel-emp  { background: #effaf5; }
+    .panel-empr { background: #fff7ed; }
+
+    .panel-inner { padding: 90px 0; }
+
+    .panel-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+    .panel-inv  .panel-eyebrow { color: #4f46e5; }
+    .panel-est  .panel-eyebrow { color: #0284c7; }
+    .panel-emp  .panel-eyebrow { color: #059669; }
+    .panel-empr .panel-eyebrow { color: #d97706; }
+
+    .panel-h2 { font-size: clamp(28px, 4vw, 50px); font-weight: 800; letter-spacing: -1px; line-height: 1.05; margin-bottom: 22px; }
+    .panel-text { font-size: 16px; color: #555; line-height: 1.8; margin-bottom: 32px; }
+
+    .panel-list { list-style: none; padding: 0; margin: 0 0 36px; }
+    .panel-list li { padding: 11px 0; border-bottom: 1px solid rgba(0,0,0,0.07); display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: #444; line-height: 1.5; }
+    .panel-list li:last-child { border-bottom: none; }
+    .panel-list .dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
+    .panel-inv  .dot { background: #4f46e5; }
+    .panel-est  .dot { background: #0284c7; }
+    .panel-emp  .dot { background: #059669; }
+    .panel-empr .dot { background: #d97706; }
+
+    .btn-panel { display: inline-block; border-radius: 100px; padding: 14px 36px; font-weight: 700; font-size: 15px; text-decoration: none; transition: opacity 0.2s, transform 0.2s; color: white; }
+    .btn-panel:hover { opacity: 0.88; color: white; transform: translateY(-2px); }
+    .panel-inv  .btn-panel { background: #4f46e5; }
+    .panel-est  .btn-panel { background: #0284c7; }
+    .panel-emp  .btn-panel { background: #059669; }
+    .panel-empr .btn-panel { background: #d97706; }
+
+    /* Panel image */
+    .panel-img-wrap { border-radius: 22px; overflow: hidden; }
+    .panel-img-wrap img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; }
+
+    /* STATS */
+    .stats-bar { background: #f7f8fb; padding: 52px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+    .stat-num { font-size: clamp(30px, 4vw, 46px); font-weight: 800; color: #0d0d0d; line-height: 1; }
+    .stat-lbl { font-size: 13px; color: #888; font-weight: 500; margin-top: 8px; }
+
+    /* FUTUROS */
+    .futuros-section { background: #0d0d0d; padding: 100px 0; }
+    .eyebrow-purple { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #818cf8; margin-bottom: 16px; }
+    .futuros-h2 { font-size: clamp(28px, 4vw, 50px); font-weight: 800; letter-spacing: -1.5px; color: white; margin-bottom: 16px; }
+    .futuros-sub { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 44px; }
+    .futuros-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 767px) { .futuros-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .futuros-grid { grid-template-columns: 1fr; } }
+    .futuros-tile {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px; padding: 28px 22px; text-decoration: none; color: white;
+      transition: background 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .futuros-tile:hover { background: rgba(79,70,229,0.18); border-color: #4f46e5; color: white; }
+    .futuros-tile .ti { font-size: 26px; }
+    .futuros-tile h4 { font-size: 14px; font-weight: 700; line-height: 1.4; }
+    .futuros-tile span { font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 600; }
+
+    /* CENTROS */
+    .centros-section { padding: 100px 0; background: white; }
+    .centros-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 16px; }
+    .centros-h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 48px; }
+    .centro-card { border-radius: 22px; padding: 38px; height: 100%; border: 2px solid #ebebeb; transition: border-color 0.25s, transform 0.25s; }
+    .centro-card:hover { border-color: #4f46e5; transform: translateY(-3px); }
+    .centro-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+    .centro-card p { font-size: 15px; color: #666; line-height: 1.7; margin-bottom: 22px; }
+    .centro-card a { color: #4f46e5; font-weight: 700; font-size: 14px; text-decoration: none; }
+
+    /* CTA */
+    .cta-section { background: linear-gradient(135deg, #4f46e5 0%, #7c6fef 100%); padding: 110px 0; text-align: center; }
+    .cta-section h2 { font-size: clamp(32px, 5vw, 62px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; color: white; margin-bottom: 18px; }
+    .cta-section p { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 44px; }
+    .btn-white { display: inline-block; background: white; color: #4f46e5; border-radius: 100px; padding: 18px 52px; font-weight: 800; font-size: 17px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-white:hover { color: #4f46e5; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <nav>
+      <div class="container">
+        <a href="index.html">
+          <img src="assets/logo_funintec.png" alt="Funintec" height="64">
+        </a>
+        <button id="menu-toggle" aria-label="Abrir menú">
+          <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+            <rect width="28" height="2.5" rx="1.25" fill="#0d0d0d"/>
+            <rect y="8.75" width="20" height="2.5" rx="1.25" fill="#0d0d0d"/>
+            <rect y="17.5" width="28" height="2.5" rx="1.25" fill="#0d0d0d"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- OVERLAY -->
+  <div id="fullscreen-menu" class="overlay">
+    <button id="menu-close" class="close-button">&times;</button>
+    <nav class="overlay-nav">
+      <a href="nosotros.html">Nosotros</a>
+      <a href="investigadores.html">Investigadores</a>
+      <a href="estudiantes.html">Estudiantes</a>
+      <a href="empresas.html">Empresas</a>
+      <a href="emprendedores.html">Emprendedores</a>
+      <a href="futuros.html">Programa Futuros</a>
+      <a href="contacto.html" class="accent">Contacto</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="hero-eyebrow">Fundación UNSAM &middot; Desde 2010</div>
+          <h1>¿Cómo podemos<br>ayudarte?</h1>
+          <p class="hero-sub">Somos el vínculo entre el conocimiento científico y quienes lo necesitan. Seleccioná quién sos para ver cómo trabajamos con vos.</p>
+          <div class="selector-hint">Soy...</div>
+          <div class="selector-grid">
+            <button class="sel-btn active" data-target="inv"><span class="icon">🔬</span> Investigador/a</button>
+            <button class="sel-btn" data-target="est"><span class="icon">🎓</span> Estudiante</button>
+            <button class="sel-btn" data-target="emp"><span class="icon">🏭</span> Empresa</button>
+            <button class="sel-btn" data-target="empr"><span class="icon">🚀</span> Emprendedor/a</button>
+          </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+          <div class="hero-img-wrap">
+            <img src="assets/neofotoscabecera1.jpg" alt="FUNINTEC">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL: INVESTIGADORES -->
+  <section class="panel-section panel-inv active" id="p-inv">
+    <div class="panel-inner">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5">
+            <div class="panel-img-wrap">
+              <img src="assets/home_gallery/position_1.jpg" alt="Investigadores">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="panel-eyebrow">INVESTIGADORES</div>
+            <h2 class="panel-h2">Llevá tu investigación<br>al siguiente nivel.</h2>
+            <p class="panel-text">FUNINTEC te conecta con empresas, emprendedores y el ecosistema productivo para que tu conocimiento tenga impacto real.</p>
+            <ul class="panel-list">
+              <li><span class="dot"></span>Gestión de proyectos de vinculación tecnológica</li>
+              <li><span class="dot"></span>Transferencia de tecnología e innovación</li>
+              <li><span class="dot"></span>Acceso a financiamiento y convocatorias</li>
+              <li><span class="dot"></span>Articulación con el sector privado y público</li>
+            </ul>
+            <a href="investigadores.html" class="btn-panel">Ver lo que ofrecemos →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL: ESTUDIANTES -->
+  <section class="panel-section panel-est" id="p-est">
+    <div class="panel-inner">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5">
+            <div class="panel-img-wrap">
+              <img src="assets/home_gallery/estudiantes.jpg" alt="Estudiantes">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="panel-eyebrow">ESTUDIANTES</div>
+            <h2 class="panel-h2">Del aula al<br>ecosistema real.</h2>
+            <p class="panel-text">Accedé a prácticas, proyectos de investigación aplicada y programas de formación en innovación y tecnología.</p>
+            <ul class="panel-list">
+              <li><span class="dot"></span>Prácticas profesionales en proyectos reales</li>
+              <li><span class="dot"></span>Formación en innovación y emprendedorismo</li>
+              <li><span class="dot"></span>Acceso al ecosistema tecnológico de UNSAM</li>
+              <li><span class="dot"></span>Programa Futuros: investigación aplicada</li>
+            </ul>
+            <a href="estudiantes.html" class="btn-panel">Ver lo que ofrecemos →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL: EMPRESAS -->
+  <section class="panel-section panel-emp" id="p-emp">
+    <div class="panel-inner">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5">
+            <div class="panel-img-wrap">
+              <img src="assets/home_gallery/empresas.jpg" alt="Empresas">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="panel-eyebrow">EMPRESAS</div>
+            <h2 class="panel-h2">Conocimiento<br>universitario para<br>tu empresa.</h2>
+            <p class="panel-text">Conectate con investigadores y laboratorios de UNSAM para resolver problemas técnicos e innovar en tu sector.</p>
+            <ul class="panel-list">
+              <li><span class="dot"></span>Acceso a investigadores y laboratorios especializados</li>
+              <li><span class="dot"></span>Ensayos y certificaciones técnicas</li>
+              <li><span class="dot"></span>Desarrollo de proyectos de I+D+i conjunto</li>
+              <li><span class="dot"></span>Centro de Biodegradabilidad de Plásticos</li>
+            </ul>
+            <a href="empresas.html" class="btn-panel">Ver lo que ofrecemos →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL: EMPRENDEDORES -->
+  <section class="panel-section panel-empr" id="p-empr">
+    <div class="panel-inner">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5">
+            <div class="panel-img-wrap">
+              <img src="assets/home_gallery/emprendedores.jpg" alt="Emprendedores">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="panel-eyebrow">EMPRENDEDORES</div>
+            <h2 class="panel-h2">Tu proyecto,<br>con respaldo<br>científico.</h2>
+            <p class="panel-text">FUNINTEC es incubadora oficial (EEAE). Te acompañamos desde la idea hasta la ejecución con mentores, red y recursos.</p>
+            <ul class="panel-list">
+              <li><span class="dot"></span>Incubación de emprendimientos de base tecnológica</li>
+              <li><span class="dot"></span>Acceso a mentores y red académica</li>
+              <li><span class="dot"></span>Vinculación con inversores y programas nacionales</li>
+              <li><span class="dot"></span>Co-working y prototipado</li>
+            </ul>
+            <a href="emprendedores.html" class="btn-panel">Ver lo que ofrecemos →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-6 col-md-3"><div class="stat-num">2010</div><div class="stat-lbl">Año de fundación</div></div>
+        <div class="col-6 col-md-3"><div class="stat-num">UVT</div><div class="stat-lbl">MINCyT + CONICET</div></div>
+        <div class="col-6 col-md-3"><div class="stat-num">EEAE</div><div class="stat-lbl">Incubadora registrada</div></div>
+        <div class="col-6 col-md-3"><div class="stat-num">UNSAM</div><div class="stat-lbl">Univ. Nac. San Martín</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUTUROS -->
+  <section class="futuros-section">
+    <div class="container">
+      <div class="row g-5 align-items-start">
+        <div class="col-lg-4">
+          <div class="eyebrow-purple">PROGRAMA</div>
+          <h2 class="futuros-h2">Programa<br>Futuros</h2>
+          <p class="futuros-sub">Investigación y divulgación sobre los grandes desafíos del desarrollo sostenible argentino.</p>
+          <a href="futuros.html" style="color:#818cf8;font-weight:700;font-size:15px;text-decoration:none;">Explorá el programa →</a>
+        </div>
+        <div class="col-lg-8">
+          <div class="futuros-grid">
+            <a href="futuros-urbanos.html" class="futuros-tile"><span class="ti">🏙️</span><h4>Futuros Urbanos</h4><span>Ver programa →</span></a>
+            <a href="futuros-agua.html" class="futuros-tile"><span class="ti">💧</span><h4>Futuros Agua</h4><span>Ver programa →</span></a>
+            <a href="futuros-energia.html" class="futuros-tile"><span class="ti">⚡</span><h4>Futuros Energía</h4><span>Ver programa →</span></a>
+            <a href="futuros-huellas-ambientales.html" class="futuros-tile"><span class="ti">🌿</span><h4>Huellas Ambientales</h4><span>Ver programa →</span></a>
+            <a href="futuros-publicaciones.html" class="futuros-tile"><span class="ti">📚</span><h4>Publicaciones</h4><span>Ver publicaciones →</span></a>
+            <a href="futuros-ambiente-desarrollo.html" class="futuros-tile"><span class="ti">🎬</span><h4>Videos</h4><span>Ver videos →</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENTROS -->
+  <section class="centros-section">
+    <div class="container">
+      <div class="centros-eyebrow">INFRAESTRUCTURA</div>
+      <h2 class="centros-h2">Centros especializados</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="centro-card">
+            <h3>Centro Tecnológico</h3>
+            <p>Servicios tecnológicos, ensayos y asistencia técnica especializada para empresas e instituciones.</p>
+            <a href="centro-tecnologico.html">Ver servicios →</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="centro-card">
+            <h3>Centro de Biodegradabilidad<br>y Compostabilidad</h3>
+            <p>Único en Argentina: ensayos de biodegradabilidad y compostabilidad de plásticos.</p>
+            <a href="centro-biodegrabilidad.html">Ver servicios →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Empezá<br>el vínculo.</h2>
+      <p>Contanos en qué estás trabajando. Te respondemos.</p>
+      <a href="contacto.html" class="btn-white">Contactanos</a>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="components.js"></script>
+  <script>
+    // Nav overlay
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
+    document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
+
+    // Audience selector
+    const btns   = document.querySelectorAll('.sel-btn');
+    const panels = document.querySelectorAll('.panel-section');
+    const map    = { inv: 'p-inv', est: 'p-est', emp: 'p-emp', empr: 'p-empr' };
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const t = this.dataset.target;
+
+        btns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        panels.forEach(p => p.classList.remove('active'));
+        document.getElementById(map[t]).classList.add('active');
+
+        document.getElementById(map[t]).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FUNINTEC — Propuesta B: Dark & Bold</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #080c14; color: white; overflow-x: hidden; }
+
+    /* NAV */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,12,20,0.96);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 18px 0;
+    }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    #menu-toggle { background: none; border: 1.5px solid rgba(255,255,255,0.18); border-radius: 10px; cursor: pointer; padding: 8px 14px; }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #080c14; opacity: 0; visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease; z-index: 9999;
+    }
+    .overlay.active { opacity: 1; visibility: visible; }
+    .close-button { position: absolute; top: 28px; right: 36px; font-size: 36px; background: none; border: none; color: white; cursor: pointer; line-height: 1; }
+    .overlay-nav { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+    .overlay-nav a { display: block; color: rgba(255,255,255,0.75); font-size: 28px; font-weight: 800; text-decoration: none; padding: 10px 0; letter-spacing: -0.5px; transition: color 0.2s; }
+    .overlay-nav a:hover, .overlay-nav a.accent { color: #00d4ff; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 120px 0 100px; background: #080c14;
+    }
+    .hero h1 {
+      font-size: clamp(52px, 9vw, 108px); font-weight: 800;
+      line-height: 0.93; letter-spacing: -3px; margin-bottom: 36px; color: white;
+    }
+    .hero h1 .accent { color: #00d4ff; }
+    .hero-sub { font-size: 18px; color: rgba(255,255,255,0.5); max-width: 480px; line-height: 1.7; margin-bottom: 52px; }
+    .btn-electric {
+      display: inline-block; background: #00d4ff; color: #080c14;
+      border-radius: 100px; padding: 16px 40px;
+      font-weight: 800; font-size: 15px; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-electric:hover { background: #40e0f0; color: #080c14; transform: translateY(-2px); }
+    .btn-ghost-dark {
+      display: inline-block; background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+      border-radius: 100px; padding: 14px 40px;
+      font-weight: 600; font-size: 15px; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost-dark:hover { border-color: white; color: white; }
+
+
+    /* NOSOTROS - luz */
+    .about-section { background: #f5f6fa; color: #080c14; padding: 110px 0; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+    .eyebrow-blue { color: #0077cc; }
+    .eyebrow-cyan { color: #00d4ff; }
+    .section-h2 { font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; }
+    .about-text { font-size: 17px; color: #555; line-height: 1.8; margin: 20px 0 36px; }
+    .cred-tag {
+      display: inline-block; background: #080c14; color: white;
+      border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 700; margin: 5px;
+    }
+    .cred-tag .hi { color: #00d4ff; }
+
+    /* AUDIENCIAS - oscuro */
+    .audience-section { background: #080c14; padding: 110px 0; }
+    .section-h2-light { font-size: clamp(30px, 4.5vw, 52px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; color: white; }
+    .audience-card {
+      position: relative; border-radius: 22px; overflow: hidden;
+      cursor: pointer; display: block; text-decoration: none;
+    }
+    .audience-card-aspect {
+      position: relative; padding-bottom: 130%; overflow: hidden;
+    }
+    .audience-card-aspect img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+      display: block;
+    }
+    .audience-card:hover .audience-card-aspect img { transform: scale(1.06); }
+    .audience-card-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.15) 55%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 26px;
+      transition: background 0.3s;
+    }
+    .audience-card:hover .audience-card-overlay { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 100%); }
+    .aud-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #00d4ff; margin-bottom: 6px; }
+    .aud-name { font-size: 20px; font-weight: 800; color: white; margin-bottom: 6px; }
+    .aud-link {
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.35); text-decoration: none;
+      transition: color 0.25s; opacity: 0; transform: translateY(4px);
+      display: block; transition: opacity 0.25s, transform 0.25s, color 0.25s;
+    }
+    .audience-card:hover .aud-link { opacity: 1; transform: translateY(0); color: #00d4ff; }
+
+    /* FUTUROS - luz */
+    .futuros-section { background: #f5f6fa; color: #080c14; padding: 110px 0; }
+    .futuros-row {
+      border-bottom: 1px solid #e5e5e5; padding: 20px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: #080c14; transition: padding-left 0.25s ease;
+    }
+    .futuros-row:first-child { border-top: 1px solid #e5e5e5; }
+    .futuros-row:hover { padding-left: 10px; }
+    .futuros-row h4 { font-size: 17px; font-weight: 700; margin: 0; }
+    .futuros-row .arr { font-size: 20px; color: #ccc; transition: color 0.2s; }
+    .futuros-row:hover .arr { color: #0077cc; }
+
+    /* CENTROS - oscuro */
+    .centros-section { background: #080c14; padding: 110px 0; }
+    .centro-dark {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px; padding: 40px; height: 100%;
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    }
+    .centro-dark:hover { border-color: #00d4ff; background: rgba(0,212,255,0.05); transform: translateY(-3px); }
+    .centro-dark h3 { font-size: 20px; font-weight: 800; color: white; margin-bottom: 14px; }
+    .centro-dark p { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 24px; }
+    .centro-dark a { color: #00d4ff; font-size: 14px; font-weight: 700; text-decoration: none; }
+
+    /* CTA FINAL */
+    .cta-section { background: #00d4ff; padding: 120px 0; text-align: center; }
+    .cta-section h2 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; color: #080c14; letter-spacing: -2px; line-height: 1.0; margin-bottom: 20px; }
+    .cta-section p { font-size: 18px; color: rgba(8,12,20,0.6); margin-bottom: 48px; }
+    .btn-dark-solid {
+      display: inline-block; background: #080c14; color: white;
+      border-radius: 100px; padding: 18px 52px;
+      font-weight: 800; font-size: 17px; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-dark-solid:hover { background: #1a2540; color: white; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <nav>
+      <div class="container">
+        <a href="index.html">
+          <img src="assets/logo_funintec.png" alt="Funintec" height="58">
+        </a>
+        <button id="menu-toggle" aria-label="Abrir menú">
+          <svg width="26" height="18" viewBox="0 0 26 18" fill="none">
+            <rect width="26" height="2.4" rx="1.2" fill="white"/>
+            <rect y="7.8" width="18" height="2.4" rx="1.2" fill="white"/>
+            <rect y="15.6" width="26" height="2.4" rx="1.2" fill="white"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- OVERLAY -->
+  <div id="fullscreen-menu" class="overlay">
+    <button id="menu-close" class="close-button">&times;</button>
+    <nav class="overlay-nav">
+      <a href="nosotros.html">Nosotros</a>
+      <a href="investigadores.html">Investigadores</a>
+      <a href="estudiantes.html">Estudiantes</a>
+      <a href="empresas.html">Empresas</a>
+      <a href="emprendedores.html">Emprendedores</a>
+      <a href="futuros.html">Programa Futuros</a>
+      <a href="contacto.html" class="accent">Contacto</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div style="max-width:720px;">
+        <h1>Ciencia.<br>Tecnología.<br><span class="accent">Futuro.</span></h1>
+        <p class="hero-sub">Conectamos el conocimiento científico con la sociedad. Vinculamos investigadores, empresas, estudiantes y emprendedores con el ecosistema de innovación argentino.</p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="nosotros.html" class="btn-electric">Conocé FUNINTEC</a>
+          <a href="contacto.html" class="btn-ghost-dark">Contactanos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- NOSOTROS -->
+  <section class="about-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="eyebrow eyebrow-blue">Quiénes somos</div>
+          <h2 class="section-h2">Fundación de UNSAM<br>para la innovación.</h2>
+          <p class="about-text">FUNINTEC es la Unidad de Vinculación Tecnológica de la Universidad Nacional de San Martín. Desde 2010 conectamos el conocimiento académico con la sociedad, la industria y el emprendedorismo.</p>
+          <a href="nosotros.html" style="color:#0077cc;font-weight:700;font-size:15px;text-decoration:none;">Conocé nuestra historia →</a>
+        </div>
+        <div class="col-lg-6">
+          <div style="display:flex;flex-wrap:wrap;">
+            <div class="cred-tag"><span class="hi">✓</span> UVT — MINCyT 2012</div>
+            <div class="cred-tag"><span class="hi">✓</span> CONICET Reconocida</div>
+            <div class="cred-tag"><span class="hi">✓</span> Incubadora EEAE</div>
+            <div class="cred-tag"><span class="hi">✓</span> Desde 2010</div>
+            <div class="cred-tag"><span class="hi">✓</span> Reg. Nac. Incubadoras</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCIAS -->
+  <section class="audience-section">
+    <div class="container">
+      <div class="row align-items-end mb-5 g-4">
+        <div class="col-lg-6">
+          <div class="eyebrow eyebrow-cyan">Con quién trabajamos</div>
+          <h2 class="section-h2-light">Vinculamos<br>a todos los actores.</h2>
+        </div>
+        <div class="col-lg-6">
+          <p style="font-size:16px;color:rgba(255,255,255,0.5);line-height:1.7;">Trabajamos con todos los eslabones del ecosistema de innovación de la Universidad Nacional de San Martín.</p>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-6 col-lg-3">
+          <a href="investigadores.html" class="audience-card">
+            <div class="audience-card-aspect">
+              <img src="assets/home_gallery/position_1.jpg" alt="Investigadores" loading="lazy">
+              <div class="audience-card-overlay">
+                <div class="aud-num">01</div>
+                <div class="aud-name">Investigadores</div>
+                <span class="aud-link">Ver más →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-lg-3">
+          <a href="estudiantes.html" class="audience-card">
+            <div class="audience-card-aspect">
+              <img src="assets/home_gallery/estudiantes.jpg" alt="Estudiantes" loading="lazy">
+              <div class="audience-card-overlay">
+                <div class="aud-num">02</div>
+                <div class="aud-name">Estudiantes</div>
+                <span class="aud-link">Ver más →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-lg-3">
+          <a href="empresas.html" class="audience-card">
+            <div class="audience-card-aspect">
+              <img src="assets/home_gallery/empresas.jpg" alt="Empresas" loading="lazy">
+              <div class="audience-card-overlay">
+                <div class="aud-num">03</div>
+                <div class="aud-name">Empresas</div>
+                <span class="aud-link">Ver más →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-lg-3">
+          <a href="emprendedores.html" class="audience-card">
+            <div class="audience-card-aspect">
+              <img src="assets/home_gallery/emprendedores.jpg" alt="Emprendedores" loading="lazy">
+              <div class="audience-card-overlay">
+                <div class="aud-num">04</div>
+                <div class="aud-name">Emprendedores</div>
+                <span class="aud-link">Ver más →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMA FUTUROS -->
+  <section class="futuros-section">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-5">
+          <div class="eyebrow eyebrow-blue">Programa de investigación</div>
+          <h2 class="section-h2">Futuros:<br>investigamos<br>el porvenir.</h2>
+          <p style="font-size:16px;color:#555;line-height:1.8;margin:20px 0 28px;">Un programa de investigación y divulgación sobre los grandes desafíos del desarrollo sostenible argentino.</p>
+          <a href="futuros.html" style="color:#0077cc;font-weight:700;font-size:16px;text-decoration:none;">Explorá el programa →</a>
+        </div>
+        <div class="col-lg-7">
+          <a href="futuros-urbanos.html" class="futuros-row"><h4>Futuros Urbanos</h4><span class="arr">→</span></a>
+          <a href="futuros-agua.html" class="futuros-row"><h4>Futuros Agua</h4><span class="arr">→</span></a>
+          <a href="futuros-energia.html" class="futuros-row"><h4>Futuros Energía</h4><span class="arr">→</span></a>
+          <a href="futuros-huellas-ambientales.html" class="futuros-row"><h4>Huellas Ambientales</h4><span class="arr">→</span></a>
+          <a href="futuros-publicaciones.html" class="futuros-row"><h4>Publicaciones Serie Futuros</h4><span class="arr">→</span></a>
+          <a href="futuros-presente-alterado.html" class="futuros-row"><h4>Videos: Un Presente Alterado</h4><span class="arr">→</span></a>
+          <a href="futuros-ambiente-desarrollo.html" class="futuros-row" style="border-bottom:none;"><h4>Videos: Ambiente y Desarrollo</h4><span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENTROS -->
+  <section class="centros-section">
+    <div class="container">
+      <div class="eyebrow eyebrow-cyan" style="margin-bottom:16px;">Infraestructura</div>
+      <h2 class="section-h2-light" style="margin-bottom:52px;">Centros especializados.</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="centro-dark">
+            <h3>Centro Tecnológico</h3>
+            <p>Servicios tecnológicos, ensayos y asistencia técnica especializada para empresas e instituciones.</p>
+            <a href="centro-tecnologico.html">Ver servicios →</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="centro-dark">
+            <h3>Centro de Biodegradabilidad<br>y Compostabilidad</h3>
+            <p>Único en Argentina: ensayos de biodegradabilidad y compostabilidad de plásticos.</p>
+            <a href="centro-biodegrabilidad.html">Ver servicios →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Trabajamos<br>juntos?</h2>
+      <p>Contanos tu proyecto. Te respondemos.</p>
+      <a href="contacto.html" class="btn-dark-solid">Contactanos</a>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="components.js"></script>
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
+    document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
+  </script>
+</body>
+</html>
