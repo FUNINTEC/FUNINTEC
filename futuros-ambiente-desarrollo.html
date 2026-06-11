@@ -3,271 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Videos Ambiente y Desarrollo - Funintec</title>
+  <title>Videos Ambiente y Desarrollo — FUNINTEC</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .futuros-title {
-      font-size: 26px;
-      font-weight: 300;
-      color: #333;
-      margin-bottom: 5px;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0a1428; background: white; overflow-x: hidden; }
 
-    .futuros-title strong {
-      font-weight: 700;
-    }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0; background: linear-gradient(to bottom, rgba(4,10,30,0.6) 0%, transparent 100%); transition: background 0.5s, padding 0.4s, box-shadow 0.5s; }
+    .site-nav.scrolled { background: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); padding: 14px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.05); }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    #menu-toggle { background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-icon-line { fill: white; transition: fill 0.35s; }
+    .site-nav.scrolled .nav-icon-line { fill: #0a1428; }
 
-    .section-block {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4,8,24,0.98); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; z-index: 9999; }
+    .overlay.active { opacity: 1; visibility: visible; }
+    .overlay-close { position: absolute; top: 28px; right: 36px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 32px; line-height: 1; transition: color 0.2s; }
+    .overlay-close:hover { color: white; }
+    .overlay-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%; max-width: 700px; padding: 0 24px; }
+    .overlay-item { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); text-decoration: none; gap: 20px; transition: padding-left 0.25s; }
+    .overlay-item:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .overlay-item:hover { padding-left: 8px; }
+    .ov-title { font-size: clamp(22px,3.5vw,32px); font-weight: 800; color: white; letter-spacing: -0.5px; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
+    .ov-desc { font-size: 13px; color: rgba(255,255,255,0.28); font-weight: 500; text-align: right; transition: color 0.2s; }
+    .overlay-item:hover .ov-title { color: #2ea3f2; }
+    .overlay-item:hover .ov-desc { color: rgba(255,255,255,0.55); }
+    .overlay-item.is-cta .ov-title { color: #2ea3f2; }
 
-    .section-block p {
-      font-size: 14px;
-      color: #666;
-      line-height: 1.7em;
-    }
+    .page-hero { position: relative; min-height: 65vh; display: flex; align-items: flex-end; padding-bottom: 72px; overflow: hidden; background: url('assets/futuroscab.jpg') center center / cover no-repeat; }
+    .page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,8,24,0.88) 0%, rgba(4,8,24,0.35) 60%, transparent 100%); }
+    .page-hero .container { position: relative; z-index: 2; }
+    .page-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(32px,5vw,64px); font-weight: 800; color: white; line-height: 1.05; letter-spacing: -1.5px; }
 
-    .section-bg {
-      background-color: #f5f5f5;
-    }
+    .futuros-layout { padding: 80px 0 100px; }
+    .futuros-section-nav { position: sticky; top: 100px; }
+    .futuros-section-nav .nav-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 18px; }
+    .futuros-section-nav ul { list-style: none; padding: 0; margin: 0; }
+    .futuros-section-nav ul li a { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #9aa0b2; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #f0f2f6; transition: color 0.2s; line-height: 1.4; }
+    .futuros-section-nav ul li a:hover { color: #0a1428; }
+    .futuros-section-nav ul li a.active { color: #2ea3f2; }
 
-    .futuros-sidebar {
-      border: 1px solid #e0e0e0;
-      padding: 0;
-    }
+    .content-body p { font-size: 16px; color: #3a4a6a; line-height: 1.8; margin-bottom: 28px; }
+    .content-body p strong { color: #0a1428; }
 
-    .futuros-sidebar h4 {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #333;
-      padding: 15px 20px;
-      margin: 0;
-      background: #f5f5f5;
-      border-bottom: 1px solid #e0e0e0;
-    }
+    /* Video cards */
+    .video-card { background: #1a2038; border-radius: 12px; overflow: hidden; padding: 28px 24px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
+    .video-card p { font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0 0 20px; }
+    .video-card a { display: inline-block; border: 1px solid rgba(46,163,242,0.5); color: #2ea3f2; padding: 8px 18px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 4px; text-decoration: none; transition: background 0.2s, color 0.2s; width: fit-content; }
+    .video-card a:hover { background: #2ea3f2; color: white; }
 
-    .futuros-sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .futuros-sidebar ul li a {
-      display: block;
-      padding: 10px 20px;
-      color: #666;
-      text-decoration: none;
-      font-size: 13px;
-      border-bottom: 1px solid #f0f0f0;
-      transition: color 0.3s, background 0.3s;
-    }
-
-    .futuros-sidebar ul li a:hover,
-    .futuros-sidebar ul li a.active {
-      color: #2ea3f2;
-      background: #fafafa;
-    }
-
-    @media (max-width: 768px) {
-      .futuros-sidebar {
-        margin-bottom: 30px;
-      }
-    }
-
-    .follow-section {
-      background-image: url('assets/futuros-alterados-trama.png');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .follow-section p {
-      font-weight: 700;
-      font-size: 33px;
-      line-height: 1.1em;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .social-icons a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      transition: opacity 0.3s;
-    }
-
-    .social-icons a:hover {
-      opacity: 0.8;
-    }
-
-    @media (max-width: 768px) {
-    }
+    .site-footer { background: #060d1e; color: white; padding: 72px 0 0; }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 260px; margin-bottom: 28px; }
+    .footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+    .footer-links { list-style: none; padding: 0; margin: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .footer-links a:hover { color: white; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 48px 0 0; }
+    .footer-bottom { padding: 24px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.25); font-weight: 500; }
+    .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .footer-badge { font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 5px 10px; color: rgba(255,255,255,0.4); }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar navbar-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="index.html">
-          <img src="assets/logo_funintec.png" alt="Logo Funintec" height="100">
-        </a>
-        <button class="btn" id="menu-toggle">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html"><img src="assets/logo_funintec.png" alt="Funintec" height="64"></a>
+      <button id="menu-toggle" aria-label="Abrir menú">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+          <rect width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="8.75" width="20" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="17.5" width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
-  <!-- MENÚ FULL SCREEN OVERLAY -->
   <div id="fullscreen-menu" class="overlay">
-    <button id="menu-close" class="close-button">&times;</button>
-    <nav class="overlay-menu">
-      <ul>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">FUNINTEC</a>
-          <ul class="submenu">
-            <li><a href="nosotros.html">NOSOTROS</a></li>
-          </ul>
-        </li>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">VINCULAMOS</a>
-          <ul class="submenu">
-            <li><a href="investigadores.html">INVESTIGADORES</a></li>
-            <li><a href="estudiantes.html">ESTUDIANTES</a></li>
-            <li><a href="empresas.html">EMPRESAS</a></li>
-            <li><a href="emprendedores.html">EMPRENDEDORES</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="centro-tecnologico.html" class="font-normal">CENTRO TECNOLÓGICO</a>
-        </li>
-        <li>
-          <a href="centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
-        </li>
-        <li class="has-submenu">
-          <a href="futuros.html" class="font-bold">FUTUROS</a>
-          <ul class="submenu">
-            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
-            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
-            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
-            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
-            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
-            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
-            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
-            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
-          </ul>
-        </li>
-        <li><a href="contacto.html">CONTACTO</a></li>
-      </ul>
+    <button id="menu-close" class="overlay-close">&times;</button>
+    <nav class="overlay-inner">
+      <a href="nosotros.html" class="overlay-item"><span class="ov-title">Nosotros</span><span class="ov-desc">Fundación de UNSAM desde 2010</span></a>
+      <a href="investigadores.html" class="overlay-item"><span class="ov-title">Investigadores</span><span class="ov-desc">Vinculamos tu investigación con el sector privado</span></a>
+      <a href="estudiantes.html" class="overlay-item"><span class="ov-title">Estudiantes</span><span class="ov-desc">Del aula al ecosistema real</span></a>
+      <a href="empresas.html" class="overlay-item"><span class="ov-title">Empresas</span><span class="ov-desc">Conocimiento universitario para tu empresa</span></a>
+      <a href="emprendedores.html" class="overlay-item"><span class="ov-title">Emprendedores</span><span class="ov-desc">Incubación y apoyo al emprendedorismo tecnológico</span></a>
+      <a href="futuros.html" class="overlay-item"><span class="ov-title">Programa Futuros</span><span class="ov-desc">Investigación sobre desarrollo sostenible</span></a>
+      <a href="centro-tecnologico.html" class="overlay-item"><span class="ov-title">Centros</span><span class="ov-desc">Infraestructura y ensayos especializados</span></a>
+      <a href="contacto.html" class="overlay-item is-cta"><span class="ov-title">Contacto →</span><span class="ov-desc"></span></a>
     </nav>
   </div>
 
-  <!-- HERO IMAGE -->
-  <section class="image-gif-container">
-    <img src="assets/futuroscab.jpg" alt="Ambiente y Desarrollo">
-    <img src="assets/home_gallery/animachome.gif" alt="Animación GIF">
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-eyebrow">PROGRAMA FUTUROS</p>
+      <h1>Videos Ambiente<br>y Desarrollo</h1>
+    </div>
   </section>
 
-  <!-- CONTENIDO PRINCIPAL: Sidebar 1/4 + Contenido 3/4 -->
-  <div class="section-block">
-    <div class="row">
-      <!-- Sidebar izquierda -->
-      <div class="col-lg-3">
-        <div class="futuros-sidebar">
-          <h4>FUTUROS</h4>
-          <ul>
-            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
-            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
-            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
-            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
-            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
-            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
-            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
-            <li><a href="futuros-ambiente-desarrollo.html" class="active">VIDEOS AMBIENTE Y DESARROLLO</a></li>
-          </ul>
+  <div class="futuros-layout">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-3">
+          <nav class="futuros-section-nav">
+            <div class="nav-label">Programa Futuros</div>
+            <ul>
+              <li><a href="futuros.html">Qué es Futuros</a></li>
+              <li><a href="futuros-urbanos.html">Futuros Urbanos</a></li>
+              <li><a href="futuros-huellas-ambientales.html">Huellas Ambientales</a></li>
+              <li><a href="futuros-energia.html">Futuros Energía</a></li>
+              <li><a href="futuros-agua.html">Futuros Agua</a></li>
+              <li><a href="futuros-publicaciones.html">Publicaciones</a></li>
+              <li><a href="futuros-presente-alterado.html">Videos Presente Alterado</a></li>
+              <li><a href="futuros-ambiente-desarrollo.html" class="active">Videos Ambiente y Desarrollo</a></li>
+            </ul>
+          </nav>
         </div>
-      </div>
-
-      <!-- Contenido principal derecha -->
-      <div class="col-lg-9">
-        <p class="futuros-title">VIDEOS <strong>AMBIENTE Y DESARROLLO</strong></p>
-        <p><strong>¿Cómo se puede proteger nuestro planeta y permitir al mismo tiempo que Latinoamérica se desarrolle proveyendo calidad de vida a toda su población?</strong> Cambio climático, el avance de la frontera agrícola y la minería en Latinoamérica serán los ejes de estas conversaciones de FUTUROS dedicadas a las relaciones entre ambiente y desarrollo.</p>
-
-        <div class="row mt-4">
-      <div class="col-md-4 mb-4">
-        <div style="background: #3f424a; border-radius: 0; overflow: hidden;">
-          <div style="padding: 20px; min-height: 80px; display: flex; align-items: center;">
-            <p style="font-size: 18px; line-height: 21px; color: #999; font-weight: 400; margin: 0;">Miguel Blesa conversó con Marcos Regis Da Silva acerca del cambio climático.</p>
+        <div class="col-lg-9">
+          <div class="content-body">
+            <p><strong>¿Cómo se puede proteger nuestro planeta y permitir al mismo tiempo que Latinoamérica se desarrolle proveyendo calidad de vida a toda su población?</strong> Cambio climático, el avance de la frontera agrícola y la minería en Latinoamérica serán los ejes de estas conversaciones de FUTUROS dedicadas a las relaciones entre ambiente y desarrollo.</p>
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="video-card">
+                  <p>Miguel Blesa conversó con Marcos Regis Da Silva acerca del cambio climático.</p>
+                  <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" target="_blank">Ver video</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="video-card">
+                  <p>Miguel Blesa y Esteban Jobággy acerca de la deforestación y la pérdida de biodiversidad.</p>
+                  <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" target="_blank">Ver video</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="video-card">
+                  <p>Miguel Blesa, María Vara y Hugo Nielson discuten sobre la explotación minera.</p>
+                  <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" target="_blank">Ver video</a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div style="background: #3f424a; border-radius: 0; overflow: hidden;">
-          <div style="padding: 20px; min-height: 80px; display: flex; align-items: center;">
-            <p style="font-size: 18px; line-height: 21px; color: #999; font-weight: 400; margin: 0;">Miguel Blesa y Esteban Jobággy acerca de la deforestación y la pérdida de biodiversidad.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div style="background: #3f424a; border-radius: 0; overflow: hidden;">
-          <div style="padding: 20px; min-height: 80px; display: flex; align-items: center;">
-            <p style="font-size: 18px; line-height: 21px; color: #999; font-weight: 400; margin: 0;">Miguel Blesa, María Vara y Hugo Nielson discuten sobre la explotación minera.</p>
-          </div>
-        </div>
-      </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <div id="site-footer"></div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <img src="assets/logo_funintec.png" alt="Funintec" height="64" style="opacity:0.9;margin-bottom:16px;display:block;">
+          <p class="footer-tagline">Fundación UNSAM Innovación y Tecnología. Vinculada a la Universidad Nacional de San Martín.</p>
+          <a href="contacto.html" style="display:inline-block;background:#2ea3f2;color:white;border-radius:100px;padding:11px 26px;font-size:14px;font-weight:700;text-decoration:none;">Contactanos</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="footer-col-title">Vinculamos</div>
+          <ul class="footer-links">
+            <li><a href="investigadores.html">Investigadores</a></li>
+            <li><a href="estudiantes.html">Estudiantes</a></li>
+            <li><a href="empresas.html">Empresas</a></li>
+            <li><a href="emprendedores.html">Emprendedores</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Programa Futuros</div>
+          <ul class="footer-links">
+            <li><a href="futuros.html">Qué es Futuros</a></li>
+            <li><a href="futuros-urbanos.html">Futuros Urbanos</a></li>
+            <li><a href="futuros-agua.html">Futuros Agua</a></li>
+            <li><a href="futuros-energia.html">Futuros Energía</a></li>
+            <li><a href="futuros-huellas-ambientales.html">Huellas Ambientales</a></li>
+            <li><a href="futuros-publicaciones.html">Publicaciones</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Institución</div>
+          <ul class="footer-links">
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="centro-tecnologico.html">Centro Tecnológico</a></li>
+            <li><a href="centro-biodegrabilidad.html">Centro Biodegradabilidad</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 FUNINTEC · Universidad Nacional de San Martín</span>
+        <div class="footer-badges">
+          <span class="footer-badge">UVT</span><span class="footer-badge">CONICET</span>
+          <span class="footer-badge">MINCyT</span><span class="footer-badge">EEAE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="components.js"></script>
-
-  <!-- JS menú hamburger -->
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuClose = document.getElementById('menu-close');
-    const fullscreenMenu = document.getElementById('fullscreen-menu');
-
-    menuToggle.addEventListener('click', function() {
-      fullscreenMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-
-    menuClose.addEventListener('click', function() {
-      fullscreenMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-
-    const submenus = document.querySelectorAll('.has-submenu > a');
-    submenus.forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const parent = this.parentElement;
-        parent.classList.toggle('open');
-      });
-    });
+    const nav = document.querySelector('.site-nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
+    document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
   </script>
 </body>
 </html>

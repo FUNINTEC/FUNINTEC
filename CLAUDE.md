@@ -1,4 +1,6 @@
-# FUNINTEC — Project Context for Claude
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
@@ -55,7 +57,7 @@ CNAME                               Custom domain for GitHub Pages
 
 ## Programa Futuros — the sidebar pattern
 
-`futuros.html` + the `futuros-*.html` subpages share a Divi-inspired left sidebar (`.futuros-sidebar`) that lists all Programa Futuros sections. The sidebar markup + CSS is currently **duplicated inline** on each page. The current `.active` class should match the page you're on.
+`futuros.html` + all `futuros-*.html` subpages share a Divi-inspired left sidebar (`.futuros-sidebar`) that lists all Programa Futuros sections. The sidebar markup + CSS is **duplicated inline** on each page. The `.active` class must match the page you're on.
 
 Canonical sidebar order (from `futuros.html`):
 
@@ -68,9 +70,7 @@ Canonical sidebar order (from `futuros.html`):
 7. VIDEOS UN PRESENTE ALTERADO → `futuros-presente-alterado.html`
 8. VIDEOS AMBIENTE Y DESARROLLO → `futuros-ambiente-desarrollo.html`
 
-Pages currently carrying the sidebar: `futuros.html`, `futuros-urbanos.html`, `futuros-agua.html`, `futuros-energia.html`, `futuros-huellas-ambientales.html`, `futuros-publicaciones.html`, `futuros-ambiente-desarrollo.html`.
-
-Pages **missing** the sidebar (known gap): `futuros-presente-alterado.html`.
+All eight pages carry the sidebar.
 
 ## The `funintec old/` archive
 
@@ -112,11 +112,10 @@ The `funintec old/` directory is scheduled for removal once content migration is
 
 ## Common tasks
 
-- **Local preview:** any static file server works. From repo root: `python3 -m http.server 8000` then browse `http://localhost:8000/`. Don't use `file://` — relative asset URLs and the footer fetch work best over HTTP.
-- **Deploy:** push to `main`. GitHub Pages serves from the repo root (`.nojekyll` present, `CNAME` pins the custom domain).
+- **Local preview:** `python3 -m http.server 8000` from repo root, then `http://localhost:8000/`. Don't use `file://` — relative asset URLs and the footer fetch work best over HTTP.
+- **Deploy:** push to `main`. GitHub Pages serves from the repo root.
 - **Branches:** feature work on short-lived branches (e.g., `fix/futuros-sidebar`), PR into `main`.
 - **Adding a Programa Futuros subpage:** duplicate `futuros-urbanos.html`, rename, update `<title>`, update the sidebar's `.active` item, and add the new link to every other page's navbar overlay + every other futuros page's sidebar `<ul>`.
-- **Fixing the sidebar gap on `futuros-presente-alterado.html`:** graft the sidebar markup and CSS from another `futuros-*.html` page, wrap existing content in the `col-lg-9` column, and set `.active` on the "VIDEOS UN PRESENTE ALTERADO" item.
 
 ## Things to avoid
 

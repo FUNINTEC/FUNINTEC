@@ -3,247 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Estudiantes - Funintec</title>
-  <!-- Bootstrap CSS -->
+  <title>Estudiantes — FUNINTEC</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Tu CSS personalizado -->
-  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Estilos para la lista en la columna izquierda */
-    .left-list {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 20px;
-    }
-    .left-list li {
-      font-family: "Open Sans", Arial, sans-serif;
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    .title {
-      font-size: 18px !important;
-      line-height: 1em;
-      font-weight: 500;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0a1428; background: white; overflow-x: hidden; }
 
-    /* Estilos para el cuadro informativo (más fino) */
-    .info-block {
-      /* Se define un ancho máximo para que sea más "fino" */
-      max-width: 350px;
-      background-color: #f2f2f2;
-      border-radius: 0 30px 0 30px;
-      overflow: hidden;
-      border-width: 0px;
-      border-style: solid;
-      border-color: #c3eef4;
-      padding-top: 29px !important;
-      padding-right: 19px !important;
-      padding-bottom: 29px !important;
-      padding-left: 19px !important;
-      min-height: 303px;
-      font-size: 14px;
+    /* NAV */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 0;
+      background: linear-gradient(to bottom, rgba(4,10,30,0.5) 0%, transparent 100%);
+      transition: background 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.4s cubic-bezier(0.4,0,0.2,1),
+                  box-shadow 0.5s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.5s ease;
     }
-    .info-block h2,
-    .info-block p {
-      font-family: "Open Sans", Arial, sans-serif;
-      font-size: 14px;
-      color: #666;
-      line-height: 1.7em;
-      font-weight: 500;
-      -webkit-font-smoothing: antialiased;
+    .site-nav.scrolled {
+      background: rgba(255,255,255,0.80);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+      padding: 14px 0;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.05);
     }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    #menu-toggle { background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-icon-line { fill: white; transition: fill 0.35s ease; }
+    .site-nav.scrolled .nav-icon-line { fill: #0a1428; }
 
-    /* Ajuste para los botones y cuerpos del acordeón */
-    .accordion .accordion-button {
-      font-weight: bold;
-      font-size: 1.1rem;
-      padding: 20px;
+    /* OVERLAY */
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(4,8,24,0.98);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease; z-index: 9999;
     }
-    .accordion .accordion-body {
-      padding: 25px;
+    .overlay.active { opacity: 1; visibility: visible; }
+    .overlay-close {
+      position: absolute; top: 28px; right: 36px;
+      background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer;
+      font-size: 32px; line-height: 1; transition: color 0.2s;
     }
+    .overlay-close:hover { color: white; }
+    .overlay-inner {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 100%; max-width: 700px; padding: 0 24px;
+    }
+    .overlay-item {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      text-decoration: none; gap: 20px; transition: padding-left 0.25s ease;
+    }
+    .overlay-item:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .overlay-item:hover { padding-left: 8px; }
+    .ov-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; color: white; letter-spacing: -0.5px; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
+    .ov-desc { font-size: 13px; color: rgba(255,255,255,0.28); font-weight: 500; text-align: right; transition: color 0.2s; }
+    .overlay-item:hover .ov-title { color: #2ea3f2; }
+    .overlay-item:hover .ov-desc  { color: rgba(255,255,255,0.55); }
+    .overlay-item.is-cta .ov-title { color: #2ea3f2; }
+
+    /* PAGE HERO */
+    .page-hero {
+      position: relative; min-height: 52vh; display: flex; align-items: flex-end;
+      padding-bottom: 72px; background: #060e24; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(46,163,242,0.12) 0%, transparent 70%);
+    }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; pointer-events: none; }
+    .orb-1 { width: 500px; height: 500px; background: #2ea3f2; top: -120px; left: -80px; }
+    .orb-2 { width: 300px; height: 300px; background: #1a6fd8; bottom: -60px; right: 10%; }
+    .page-hero .container { position: relative; z-index: 2; }
+    .page-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(38px, 6vw, 72px); font-weight: 800; color: white; line-height: 1.0; letter-spacing: -1.5px; }
+    .page-hero p { font-size: 18px; color: rgba(255,255,255,0.6); margin-top: 18px; max-width: 540px; line-height: 1.6; }
+
+    /* INTRO */
+    .intro-section { padding: 100px 0; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 14px; }
+    .section-title { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; color: #0a1428; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 32px; }
+    .body-text { font-size: 17px; color: #3a4a6a; line-height: 1.8; margin-bottom: 20px; }
+
+    /* SERVICIOS CARDS */
+    .services-section { padding: 80px 0; background: #f8f9fc; }
+    .service-card {
+      background: white; border-radius: 20px; padding: 40px 36px;
+      border: 1px solid #eef0f4; height: 100%;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+    .service-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.08); transform: translateY(-4px); }
+    .service-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #2ea3f2; margin-bottom: 20px; }
+    .service-title { font-size: 22px; font-weight: 800; color: #0a1428; margin-bottom: 16px; letter-spacing: -0.3px; }
+    .service-text { font-size: 15px; color: #5a6a8a; line-height: 1.75; }
+
+    /* DIVIDER */
+    .section-divider { border: none; border-top: 1px solid #eef0f4; margin: 0; }
+
+    /* CTA */
+    .cta-final { padding: 120px 0; text-align: center; background: white; }
+    .cta-final h2 { font-size: clamp(28px, 4.5vw, 52px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 32px; color: #0a1428; }
+    .cta-final h2 strong { display: block; font-size: 0.55em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-bottom: 10px; }
+    .btn-cta { display: inline-block; background: #0a1428; color: white; border-radius: 100px; padding: 16px 48px; font-weight: 700; font-size: 16px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .btn-cta:hover { background: #1a2f5e; color: white; transform: translateY(-2px); }
+
+    /* FOOTER */
+    .site-footer { background: #060d1e; color: white; padding: 72px 0 0; }
+    .footer-logo { margin-bottom: 16px; }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 260px; margin-bottom: 28px; }
+    .footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+    .footer-links { list-style: none; padding: 0; margin: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .footer-links a:hover { color: white; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 48px 0 0; }
+    .footer-bottom { padding: 24px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.25); font-weight: 500; }
+    .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .footer-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 5px 10px; color: rgba(255,255,255,0.4); }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar navbar-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <!-- Logo -->
-        <a class="navbar-brand" href="index.html">
-          <img src="assets/logo_funintec.png" alt="Logo Funintec" height="100">
-        </a>
-        <!-- Botón hamburger -->
-        <button class="btn" id="menu-toggle">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html">
+        <img src="assets/logo_funintec.png" alt="Funintec" height="64">
+      </a>
+      <button id="menu-toggle" aria-label="Abrir menú">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+          <rect width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="8.75" width="20" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="17.5" width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
-  <!-- MENÚ FULL SCREEN OVERLAY -->
+  <!-- OVERLAY MENU -->
   <div id="fullscreen-menu" class="overlay">
-    <!-- Botón de cierre -->
-    <button id="menu-close" class="close-button">&times;</button>
-    <!-- Contenido del menú -->
-    <nav class="overlay-menu">
-      <ul>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">FUNINTEC</a>
-          <ul class="submenu">
-            <li><a href="NOSOTROS.html">NOSOTROS</a></li>
-          </ul>
-        </li>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">VINCULAMOS</a>
-          <ul class="submenu">
-            <li><a href="investigadores.html">INVESTIGADORES</a></li>
-            <li><a href="estudiantes.html">ESTUDIANTES</a></li>
-            <li><a href="empresas.html">EMPRESAS</a></li>
-            <li><a href="emprendedores.html">EMPRENDEDORES</a></li>
-          </ul>
-        </li>
-        <li >
-          <a href="#" class="font-normal">CENTRO TECNOLÓGICO</a>
-         
-        </li>
-        <li >
-          <a href="centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
-        </li>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">FUTUROS</a>
-          <ul class="submenu">
-            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
-            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
-            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
-            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
-            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
-            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
-            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
-            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
-          </ul>
-        </li>
-        <li><a href="contacto.html">CONTACTO</a></li>
-      </ul>
+    <button id="menu-close" class="overlay-close">&times;</button>
+    <nav class="overlay-inner">
+      <a href="nosotros.html" class="overlay-item">
+        <span class="ov-title">Nosotros</span>
+        <span class="ov-desc">Fundación de UNSAM desde 2010</span>
+      </a>
+      <a href="investigadores.html" class="overlay-item">
+        <span class="ov-title">Investigadores</span>
+        <span class="ov-desc">Vinculamos tu investigación con el sector privado</span>
+      </a>
+      <a href="estudiantes.html" class="overlay-item">
+        <span class="ov-title">Estudiantes</span>
+        <span class="ov-desc">Del aula al ecosistema real</span>
+      </a>
+      <a href="empresas.html" class="overlay-item">
+        <span class="ov-title">Empresas</span>
+        <span class="ov-desc">Conocimiento universitario para tu empresa</span>
+      </a>
+      <a href="emprendedores.html" class="overlay-item">
+        <span class="ov-title">Emprendedores</span>
+        <span class="ov-desc">Incubación y apoyo al emprendedorismo tecnológico</span>
+      </a>
+      <a href="futuros.html" class="overlay-item">
+        <span class="ov-title">Programa Futuros</span>
+        <span class="ov-desc">Investigación sobre desarrollo sostenible</span>
+      </a>
+      <a href="centro-tecnologico.html" class="overlay-item">
+        <span class="ov-title">Centros</span>
+        <span class="ov-desc">Infraestructura y ensayos especializados</span>
+      </a>
+      <a href="contacto.html" class="overlay-item is-cta">
+        <span class="ov-title">Contacto →</span>
+        <span class="ov-desc"></span>
+      </a>
     </nav>
   </div>
 
-  <!-- SECCIÓN DE IMÁGENES (Banner) -->
-  <section class="image-gif-container">
-    <img src="assets/estudiantesBanner.jpg" alt="Imagen principal">
-    <img src="assets/animachome.gif" alt="Animación GIF">
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="container">
+      <p class="page-eyebrow">VINCULAMOS</p>
+      <h1>Estudiantes</h1>
+      <p>Del aula al ecosistema real. Te abrimos la puerta al mundo del emprendimiento innovador.</p>
+    </div>
   </section>
 
-  <!-- CONTENIDO INFERIOR: BLOQUE IZQUIERDO CON LISTA E INFO BLOCK; DERECHA: ACORDEONES -->
-  <section class="container-fluid my-5">
-    <div class="row align-items-start">
-      <!-- Columna izquierda: Lista y bloque informativo -->
-      <div class="col-md-4">
-        <!-- Lista vertical -->
-        <ul class="left-list">
-          <li class="title">VINCULAMOS</li>
-          <li>INVESTIGADORES</li>
-          <li>ESTUDIANTES</li>
-          <li>EMPRESAS</li>
-          <li>EMPRENDEDORES</li>
-        </ul>
-        <!-- Bloque informativo -->
-        <div class="info-block">
-          <h2>CREAMOS VALOR</h2>
-          <p>
+  <!-- INTRO -->
+  <section class="intro-section">
+    <div class="container">
+      <div class="row g-5 align-items-start">
+        <div class="col-lg-4">
+          <p class="section-label">Creamos valor</p>
+          <h2 class="section-title">Tu formación tiene impacto real</h2>
+        </div>
+        <div class="col-lg-8">
+          <p class="body-text">
             Apoyamos la investigación, desarrollo, innovación y transferencia tecnológica. Incentivamos el espíritu emprendedor. Acompañamos la creación de empresas de base tecnológica. Brindamos soluciones a problemas tecnológicos y productivos. Agilizamos los procesos de gestión.
           </p>
         </div>
       </div>
-      <!-- Columna derecha: Acordeón con 3 ítems -->
-      <div class="col-md-8">
-        <div class="accordion" id="accordionEstudiantes">
-          <!-- Ítem 1: Transferí conocimientos (arranca desplegado) -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTransferir">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" 
-                      data-bs-target="#collapseTransferir" aria-expanded="true" 
-                      aria-controls="collapseTransferir">
-                      Descubrí tu espíritu emprendedor
-              </button>
-            </h2>
-            <div id="collapseTransferir" class="accordion-collapse collapse show" 
-                 aria-labelledby="headingTransferir" data-bs-parent="#accordionEstudiantes">
-              <div class="accordion-body">
-                <p>
-                    FUNINTEC es el puente que la Universidad de San Martín pone en tu camino para que concretes tus inquietudes. Como primer paso te ayudará a descubrir tu vocación emprendedora a través de FUNINTEC Labs, el programa de emprendedorismo de FUNINTEC y UNSAM. A través de charlas, entrevistas y cursos de formación de emprendedores, te abrirá la puerta al mundo del emprendimiento innovador.
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- Ítem 2:Llevá tus proyectos a la práctica(arranca cerrado, sin contenido) -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingProtege">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                      data-bs-target="#collapseProtege" aria-expanded="false" 
-                      aria-controls="collapseProtege">
-                      Llevá tus proyectos a la práctica
-              </button>
-            </h2>
-            <div id="collapseProtege" class="accordion-collapse collapse" 
-                 aria-labelledby="headingProtege" data-bs-parent="#accordionEstudiantes">
-              <div class="accordion-body">
-                <!-- Sin contenido -->
-              </div>
-            </div>
-          </div>
-          <!-- Ítem 3: Encontrá financiamiento para tus proyectos (arranca cerrado, sin contenido) -->
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingRecursos">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                      data-bs-target="#collapseRecursos" aria-expanded="false" 
-                      aria-controls="collapseRecursos">
-                Encontrá financiamiento para tus proyectos
-              </button>
-            </h2>
-            <div id="collapseRecursos" class="accordion-collapse collapse" 
-                 aria-labelledby="headingRecursos" data-bs-parent="#accordionEstudiantes">
-              <div class="accordion-body">
-                <!-- Sin contenido -->
-              </div>
-            </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- SERVICIOS -->
+  <section class="services-section">
+    <div class="container">
+      <p class="section-label">Qué hacemos por vos</p>
+      <h2 class="section-title" style="max-width:480px;">Todo lo que necesitás para empezar</h2>
+      <div class="row g-4 mt-2">
+        <div class="col-md-4">
+          <div class="service-card">
+            <div class="service-num">01</div>
+            <div class="service-title">Descubrí tu espíritu emprendedor</div>
+            <p class="service-text">FUNINTEC es el puente que la Universidad de San Martín pone en tu camino para que concretes tus inquietudes. Como primer paso te ayudará a descubrir tu vocación emprendedora a través de FUNINTEC Labs, el programa de emprendedorismo de FUNINTEC y UNSAM. A través de charlas, entrevistas y cursos de formación de emprendedores, te abrirá la puerta al mundo del emprendimiento innovador.</p>
           </div>
         </div>
-      </div> <!-- Fin columna derecha -->
+        <div class="col-md-4">
+          <div class="service-card">
+            <div class="service-num">02</div>
+            <div class="service-title">Llevá tus proyectos a la práctica</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="service-card">
+            <div class="service-num">03</div>
+            <div class="service-title">Encontrá financiamiento para tus proyectos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2><strong>ESTUDIANTES</strong>Tu futuro<br>empieza acá.</h2>
+      <a href="contacto.html" class="btn-cta">Contactanos</a>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <div id="site-footer"></div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <div class="footer-logo">
+            <img src="assets/logo_funintec.png" alt="Funintec" height="64" style="opacity:0.9;">
+          </div>
+          <p class="footer-tagline">Fundación UNSAM Innovación y Tecnología. Vinculada a la Universidad Nacional de San Martín.</p>
+          <a href="contacto.html" style="display:inline-block;background:#2ea3f2;color:white;border-radius:100px;padding:11px 26px;font-size:14px;font-weight:700;text-decoration:none;">Contactanos</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="footer-col-title">Vinculamos</div>
+          <ul class="footer-links">
+            <li><a href="investigadores.html">Investigadores</a></li>
+            <li><a href="estudiantes.html">Estudiantes</a></li>
+            <li><a href="empresas.html">Empresas</a></li>
+            <li><a href="emprendedores.html">Emprendedores</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Programa Futuros</div>
+          <ul class="footer-links">
+            <li><a href="futuros.html">Qué es Futuros</a></li>
+            <li><a href="futuros-urbanos.html">Futuros Urbanos</a></li>
+            <li><a href="futuros-agua.html">Futuros Agua</a></li>
+            <li><a href="futuros-energia.html">Futuros Energía</a></li>
+            <li><a href="futuros-huellas-ambientales.html">Huellas Ambientales</a></li>
+            <li><a href="futuros-publicaciones.html">Publicaciones</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Institución</div>
+          <ul class="footer-links">
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="centro-tecnologico.html">Centro Tecnológico</a></li>
+            <li><a href="centro-biodegrabilidad.html">Centro Biodegradabilidad</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+          <div class="footer-col-title" style="margin-top:28px;">Sede</div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.38);line-height:1.7;">Universidad Nacional<br>de San Martín<br>Buenos Aires, Argentina</p>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 FUNINTEC · Universidad Nacional de San Martín</span>
+        <div class="footer-badges">
+          <span class="footer-badge">UVT</span>
+          <span class="footer-badge">CONICET</span>
+          <span class="footer-badge">MINCyT</span>
+          <span class="footer-badge">EEAE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-<!-- SCRIPTS -->
-  <script type="module" src="components/header.js"></script>
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="components.js"></script>
-  <!-- Script para controlar el overlay y submenús -->
   <script>
-    // Control del overlay del menú
-    const menuToggle = document.getElementById('menu-toggle');
-    const fullscreenMenu = document.getElementById('fullscreen-menu');
-    const menuClose = document.getElementById('menu-close');
-
-    menuToggle.addEventListener('click', () => {
-      fullscreenMenu.classList.add('active');
-    });
-
-    menuClose.addEventListener('click', () => {
-      fullscreenMenu.classList.remove('active');
-    });
-
-    // Control de submenús
-    document.querySelectorAll('.has-submenu > a').forEach(item => {
-      item.addEventListener('click', function(e) {
-        e.preventDefault();
-        this.parentElement.classList.toggle('open');
-      });
-    });
+    const nav = document.querySelector('.site-nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
+    document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
   </script>
 </body>
 </html>

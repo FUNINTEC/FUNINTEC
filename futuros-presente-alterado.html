@@ -3,512 +3,301 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Videos Un Presente Alterado - Funintec</title>
+  <title>Videos Un Presente Alterado — FUNINTEC</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Layout sidebar + contenido como Divi original: 1/4 + 3/4 */
-    .futuros-content-wrapper {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 50px 20px;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0a1428; background: white; overflow-x: hidden; }
 
-    .futuros-sidebar {
-      border: 1px solid #e0e0e0;
-      padding: 0;
-    }
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0; background: linear-gradient(to bottom, rgba(4,10,30,0.6) 0%, transparent 100%); transition: background 0.5s, padding 0.4s, box-shadow 0.5s; }
+    .site-nav.scrolled { background: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); padding: 14px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.05); }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; }
+    #menu-toggle { background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-icon-line { fill: white; transition: fill 0.35s; }
+    .site-nav.scrolled .nav-icon-line { fill: #0a1428; }
 
-    .futuros-sidebar h4 {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #333;
-      padding: 15px 20px;
-      margin: 0;
-      background: #f5f5f5;
-      border-bottom: 1px solid #e0e0e0;
-    }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4,8,24,0.98); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; z-index: 9999; }
+    .overlay.active { opacity: 1; visibility: visible; }
+    .overlay-close { position: absolute; top: 28px; right: 36px; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 32px; line-height: 1; transition: color 0.2s; }
+    .overlay-close:hover { color: white; }
+    .overlay-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%; max-width: 700px; padding: 0 24px; }
+    .overlay-item { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); text-decoration: none; gap: 20px; transition: padding-left 0.25s; }
+    .overlay-item:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .overlay-item:hover { padding-left: 8px; }
+    .ov-title { font-size: clamp(22px,3.5vw,32px); font-weight: 800; color: white; letter-spacing: -0.5px; line-height: 1; transition: color 0.2s; flex-shrink: 0; }
+    .ov-desc { font-size: 13px; color: rgba(255,255,255,0.28); font-weight: 500; text-align: right; transition: color 0.2s; }
+    .overlay-item:hover .ov-title { color: #2ea3f2; }
+    .overlay-item:hover .ov-desc { color: rgba(255,255,255,0.55); }
+    .overlay-item.is-cta .ov-title { color: #2ea3f2; }
 
-    .futuros-sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+    .page-hero { position: relative; min-height: 65vh; display: flex; align-items: flex-end; padding-bottom: 72px; overflow: hidden; background: url('assets/presente-alterado-bg.png') center center / cover no-repeat, #060e24; }
+    .page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,8,24,0.92) 0%, rgba(4,8,24,0.4) 60%, transparent 100%); }
+    .page-hero .container { position: relative; z-index: 2; }
+    .page-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(32px,5vw,64px); font-weight: 800; color: white; line-height: 1.05; letter-spacing: -1.5px; }
+    .hero-sub { font-size: 18px; color: rgba(255,255,255,0.65); margin-top: 18px; max-width: 560px; line-height: 1.6; }
 
-    .futuros-sidebar ul li a {
-      display: block;
-      padding: 10px 20px;
-      color: #666;
-      text-decoration: none;
-      font-size: 13px;
-      border-bottom: 1px solid #f0f0f0;
-      transition: color 0.3s, background 0.3s;
-    }
+    .futuros-layout { padding: 80px 0 0; }
+    .futuros-section-nav { position: sticky; top: 100px; }
+    .futuros-section-nav .nav-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 18px; }
+    .futuros-section-nav ul { list-style: none; padding: 0; margin: 0; }
+    .futuros-section-nav ul li a { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #9aa0b2; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #f0f2f6; transition: color 0.2s; line-height: 1.4; }
+    .futuros-section-nav ul li a:hover { color: #0a1428; }
+    .futuros-section-nav ul li a.active { color: #2ea3f2; }
 
-    .futuros-sidebar ul li a:hover,
-    .futuros-sidebar ul li a.active {
-      color: #2ea3f2;
-      background: #fafafa;
-    }
+    .content-body p { font-size: 16px; color: #3a4a6a; line-height: 1.8; margin-bottom: 16px; }
 
-    @media (max-width: 768px) {
-      .futuros-sidebar {
-        margin-bottom: 30px;
-      }
-    }
+    /* Humanidades band */
+    .humanidades-band { background: #060e24; padding: 60px 0 56px; margin-top: 60px; }
+    .humanidades-band .section-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 14px; }
+    .humanidades-band h2 { font-size: clamp(24px,3vw,36px); font-weight: 800; color: white; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .humanidades-band p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.75; max-width: 680px; }
 
-    .futuros-title {
-      font-size: 26px;
-      font-weight: 300;
-      color: #333;
-      margin-bottom: 5px;
-    }
+    /* Author grid */
+    .authors-section { padding: 60px 0; }
+    .author-card { position: relative; overflow: hidden; border-radius: 8px; }
+    .author-card img { width: 100%; height: auto; display: block; filter: grayscale(100%); transition: filter 0.3s; }
+    .author-card:hover img { filter: grayscale(0%); }
+    .author-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(4,8,24,0.75); color: white; padding: 8px 10px; text-align: center; font-size: 11px; font-weight: 700; opacity: 0; transition: opacity 0.3s; }
+    .author-card:hover .author-overlay { opacity: 1; }
 
-    .futuros-title strong {
-      font-weight: 700;
-    }
+    /* Conversations */
+    .conv-section { background: #060e24; }
+    .conv-header { padding: 56px 0 40px; text-align: center; }
+    .conv-header h2 { font-size: clamp(24px,3vw,36px); font-weight: 800; color: white; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .conv-header p { font-size: 15px; color: rgba(255,255,255,0.5); }
+    .conv-item { border-top: 1px solid rgba(255,255,255,0.08); }
+    .conv-item .row { align-items: center; }
+    .conv-item img { width: 100%; height: auto; display: block; }
+    .conv-text { padding: 28px 32px; }
+    .conv-text p { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 18px; }
+    .conv-text p strong { color: white; }
+    .btn-ver { display: inline-block; padding: 9px 22px; border: 2px solid rgba(46,163,242,0.7); color: #2ea3f2; text-decoration: none; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 4px; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+    .btn-ver:hover { background: #2ea3f2; color: white; border-color: #2ea3f2; }
+    .conv-section-bottom { padding-bottom: 60px; }
 
-    .section-block {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .section-block p {
-      font-size: 14px;
-      color: #666;
-      line-height: 1.7em;
-    }
-
-    .section-bg {
-      background-image: url('assets/presente-alterado-bg.png');
-      background-size: cover;
-      background-position: center;
-      padding: 60px 0;
-    }
-
-    /* Grilla de autores */
-    .authors-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .author-card {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .author-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: grayscale(100%);
-      transition: filter 0.3s;
-    }
-
-    .author-card:hover img {
-      filter: grayscale(0%);
-    }
-
-    .author-card .author-overlay {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 600;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .author-card:hover .author-overlay {
-      opacity: 1;
-    }
-
-    /* Sección Conversaciones */
-    .conv-header {
-      background: #333;
-      padding: 50px 20px;
-      text-align: center;
-    }
-
-    .conv-header h2 {
-      color: #fff;
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .conv-header p {
-      color: #ccc;
-      font-size: 15px;
-    }
-
-    .conversation-item {
-      padding: 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .conversation-item .row {
-      align-items: center;
-    }
-
-    .conversation-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .conversation-item .conv-text {
-      padding: 25px 30px;
-    }
-
-    .conversation-item .conv-text p {
-      font-size: 14px;
-      color: #666;
-      line-height: 1.7em;
-      margin-bottom: 15px;
-    }
-
-    .conversation-item .conv-text .btn-ver {
-      display: inline-block;
-      padding: 8px 20px;
-      border: 2px solid #2ea3f2;
-      color: #2ea3f2;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .conversation-item .conv-text .btn-ver:hover {
-      background: #2ea3f2;
-      color: #fff;
-    }
+    .site-footer { background: #060d1e; color: white; padding: 72px 0 0; }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 260px; margin-bottom: 28px; }
+    .footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+    .footer-links { list-style: none; padding: 0; margin: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .footer-links a:hover { color: white; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 48px 0 0; }
+    .footer-bottom { padding: 24px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.25); font-weight: 500; }
+    .footer-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .footer-badge { font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 5px 10px; color: rgba(255,255,255,0.4); }
 
     @media (max-width: 768px) {
-      .authors-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .follow-section {
-      background-image: url('assets/futuros-alterados-trama.png');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .follow-section p {
-      font-weight: 700;
-      font-size: 33px;
-      line-height: 1.1em;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .social-icons a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      transition: opacity 0.3s;
-    }
-
-    .social-icons a:hover {
-      opacity: 0.8;
-    }
-
-    @media (max-width: 768px) {
+      .authors-section .row > div { width: 50%; }
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <nav class="navbar navbar-light">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="index.html">
-          <img src="assets/logo_funintec.png" alt="Logo Funintec" height="100">
-        </a>
-        <button class="btn" id="menu-toggle">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
+
+  <header class="site-nav">
+    <div class="container">
+      <a href="index.html"><img src="assets/logo_funintec.png" alt="Funintec" height="64"></a>
+      <button id="menu-toggle" aria-label="Abrir menú">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+          <rect width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="8.75" width="20" height="2.5" rx="1.25" class="nav-icon-line"/>
+          <rect y="17.5" width="28" height="2.5" rx="1.25" class="nav-icon-line"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
-  <!-- MENÚ FULL SCREEN OVERLAY -->
   <div id="fullscreen-menu" class="overlay">
-    <button id="menu-close" class="close-button">&times;</button>
-    <nav class="overlay-menu">
-      <ul>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">FUNINTEC</a>
-          <ul class="submenu">
-            <li><a href="nosotros.html">NOSOTROS</a></li>
-          </ul>
-        </li>
-        <li class="has-submenu">
-          <a href="#" class="font-bold">VINCULAMOS</a>
-          <ul class="submenu">
-            <li><a href="investigadores.html">INVESTIGADORES</a></li>
-            <li><a href="estudiantes.html">ESTUDIANTES</a></li>
-            <li><a href="empresas.html">EMPRESAS</a></li>
-            <li><a href="emprendedores.html">EMPRENDEDORES</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="centro-tecnologico.html" class="font-normal">CENTRO TECNOLÓGICO</a>
-        </li>
-        <li>
-          <a href="centro-biodegrabilidad.html" class="font-normal">CENTRO DE BIODEGRABILIDAD</a>
-        </li>
-        <li class="has-submenu">
-          <a href="futuros.html" class="font-bold">FUTUROS</a>
-          <ul class="submenu">
-            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
-            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
-            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
-            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
-            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
-            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
-            <li><a href="futuros-presente-alterado.html">VIDEOS UN PRESENTE ALTERADO</a></li>
-            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
-          </ul>
-        </li>
-        <li><a href="contacto.html">CONTACTO</a></li>
-      </ul>
+    <button id="menu-close" class="overlay-close">&times;</button>
+    <nav class="overlay-inner">
+      <a href="nosotros.html" class="overlay-item"><span class="ov-title">Nosotros</span><span class="ov-desc">Fundación de UNSAM desde 2010</span></a>
+      <a href="investigadores.html" class="overlay-item"><span class="ov-title">Investigadores</span><span class="ov-desc">Vinculamos tu investigación con el sector privado</span></a>
+      <a href="estudiantes.html" class="overlay-item"><span class="ov-title">Estudiantes</span><span class="ov-desc">Del aula al ecosistema real</span></a>
+      <a href="empresas.html" class="overlay-item"><span class="ov-title">Empresas</span><span class="ov-desc">Conocimiento universitario para tu empresa</span></a>
+      <a href="emprendedores.html" class="overlay-item"><span class="ov-title">Emprendedores</span><span class="ov-desc">Incubación y apoyo al emprendedorismo tecnológico</span></a>
+      <a href="futuros.html" class="overlay-item"><span class="ov-title">Programa Futuros</span><span class="ov-desc">Investigación sobre desarrollo sostenible</span></a>
+      <a href="centro-tecnologico.html" class="overlay-item"><span class="ov-title">Centros</span><span class="ov-desc">Infraestructura y ensayos especializados</span></a>
+      <a href="contacto.html" class="overlay-item is-cta"><span class="ov-title">Contacto →</span><span class="ov-desc"></span></a>
     </nav>
   </div>
 
-  <!-- HERO IMAGE -->
-  <section class="image-gif-container">
-    <img src="assets/futuroscab.jpg" alt="Un Presente Alterado">
-    <img src="assets/home_gallery/animachome.gif" alt="Animación GIF">
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-eyebrow">PROGRAMA FUTUROS</p>
+      <h1>El Futuro en un<br>Presente Alterado</h1>
+      <p class="hero-sub">Desde el Programa Futuros generamos contenidos en los que nos preguntamos sobre el futuro, durante este período lo hacemos desde un presente alterado.</p>
+    </div>
   </section>
 
-  <!-- CONTENIDO PRINCIPAL: Sidebar 1/4 + Contenido 3/4 -->
-  <div class="futuros-content-wrapper">
-    <div class="row">
-      <!-- Sidebar izquierda -->
-      <div class="col-lg-3">
-        <div class="futuros-sidebar">
-          <h4>FUTUROS</h4>
-          <ul>
-            <li><a href="futuros.html">QUÉ ES FUTUROS</a></li>
-            <li><a href="futuros-urbanos.html">FUTUROS URBANOS</a></li>
-            <li><a href="futuros-huellas-ambientales.html">FUTUROS HUELLAS AMBIENTALES</a></li>
-            <li><a href="futuros-energia.html">FUTUROS ENERGÍA</a></li>
-            <li><a href="futuros-agua.html">FUTUROS AGUA</a></li>
-            <li><a href="futuros-publicaciones.html">PUBLICACIONES SERIE FUTUROS</a></li>
-            <li><a href="futuros-presente-alterado.html" class="active">VIDEOS UN PRESENTE ALTERADO</a></li>
-            <li><a href="futuros-ambiente-desarrollo.html">VIDEOS AMBIENTE Y DESARROLLO</a></li>
+  <div class="futuros-layout">
+    <div class="container">
+      <div class="row g-5" style="padding-bottom: 60px;">
+        <div class="col-lg-3">
+          <nav class="futuros-section-nav">
+            <div class="nav-label">Programa Futuros</div>
+            <ul>
+              <li><a href="futuros.html">Qué es Futuros</a></li>
+              <li><a href="futuros-urbanos.html">Futuros Urbanos</a></li>
+              <li><a href="futuros-huellas-ambientales.html">Huellas Ambientales</a></li>
+              <li><a href="futuros-energia.html">Futuros Energía</a></li>
+              <li><a href="futuros-agua.html">Futuros Agua</a></li>
+              <li><a href="futuros-publicaciones.html">Publicaciones</a></li>
+              <li><a href="futuros-presente-alterado.html" class="active">Videos Presente Alterado</a></li>
+              <li><a href="futuros-ambiente-desarrollo.html">Videos Ambiente y Desarrollo</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-9">
+          <div class="content-body">
+            <p>Desde el Programa Futuros generamos contenidos en los que nos preguntamos sobre el futuro, <strong>durante este período lo hacemos desde un presente alterado</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUMANIDADES BAND -->
+  <div class="humanidades-band">
+    <div class="container">
+      <div class="section-label">Una mirada desde las Humanidades</div>
+      <h2>Una mirada desde<br>las Humanidades</h2>
+      <p>Lxs autorxs del libro <em>El futuro: miradas desde las Humanidades</em> reflexionan sobre cómo pensar el futuro en la situación de pandemia del COVID-19.</p>
+    </div>
+  </div>
+
+  <!-- AUTHORS GRID -->
+  <div class="authors-section">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/yujnovsky.png" alt="Inés Yujnovsky"><div class="author-overlay">Inés Yujnovsky</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/romero.png" alt="Walter Romero"><div class="author-overlay">Walter Romero</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/catoggio.png" alt="Catoggio"><div class="author-overlay">Catoggio</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/kozel.png" alt="Kozel"><div class="author-overlay">Kozel</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/martinez.png" alt="Martínez"><div class="author-overlay">Martínez</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/bergel.jpg" alt="Martín Bergel"><div class="author-overlay">Martín Bergel</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/iturrieta.png" alt="Sandra Iturrieta"><div class="author-overlay">Sandra Iturrieta</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/girardi.jpg" alt="Enzo Girardi"><div class="author-overlay">Enzo Girardi</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/tennina.jpg" alt="Lucía Tennina"><div class="author-overlay">Lucía Tennina</div></div></div>
+        <div class="col-6 col-sm-4 col-lg-2-4"><div class="author-card"><img src="assets/presente-alterado/stefanoni.jpg" alt="Pablo Stefanoni"><div class="author-overlay">Pablo Stefanoni</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONVERSATIONS -->
+  <div class="conv-section">
+    <div class="conv-header">
+      <div class="container">
+        <h2>CONVERSACIONES</h2>
+        <p>Encuentros entre colegas para discutir sobre el futuro en un presente alterado.</p>
+      </div>
+    </div>
+    <div class="conv-section-bottom">
+      <div class="container">
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/calderon.png" alt="Fernando Calderón"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>Fernando Calderón reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/grimson.png" alt="Alejandro Grimson"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>Alejandro Grimson reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/grimson-santoro.jpg" alt="Grimson sobre Santoro"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>Alejandro Grimson reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/delta.jpg" alt="El futuro del Delta del Paraná"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>El futuro del Delta del Paraná en un presente alterado.</strong> Conversan Rubén Quintana y Claudio Baigún</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/arte.jpg" alt="El futuro del arte"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>El futuro del arte desde este presente alterado.</strong> Conversan Laura Malosetti, Florencia Levy y Gabriel Baggio.</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+        <div class="conv-item">
+          <div class="row g-0">
+            <div class="col-md-4"><img src="assets/presente-alterado/asua-kandus.jpg" alt="Miguel de Asúa y Patricia Kandus"></div>
+            <div class="col-md-8"><div class="conv-text"><p><strong>Miguel de Asúa</strong> conversa con <strong>Patricia Kandus</strong> sobre la peste negra en relación al Covid-19.</p><a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-4">
+          <img src="assets/logo_funintec.png" alt="Funintec" height="64" style="opacity:0.9;margin-bottom:16px;display:block;">
+          <p class="footer-tagline">Fundación UNSAM Innovación y Tecnología. Vinculada a la Universidad Nacional de San Martín.</p>
+          <a href="contacto.html" style="display:inline-block;background:#2ea3f2;color:white;border-radius:100px;padding:11px 26px;font-size:14px;font-weight:700;text-decoration:none;">Contactanos</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="footer-col-title">Vinculamos</div>
+          <ul class="footer-links">
+            <li><a href="investigadores.html">Investigadores</a></li>
+            <li><a href="estudiantes.html">Estudiantes</a></li>
+            <li><a href="empresas.html">Empresas</a></li>
+            <li><a href="emprendedores.html">Emprendedores</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Programa Futuros</div>
+          <ul class="footer-links">
+            <li><a href="futuros.html">Qué es Futuros</a></li>
+            <li><a href="futuros-urbanos.html">Futuros Urbanos</a></li>
+            <li><a href="futuros-agua.html">Futuros Agua</a></li>
+            <li><a href="futuros-energia.html">Futuros Energía</a></li>
+            <li><a href="futuros-huellas-ambientales.html">Huellas Ambientales</a></li>
+            <li><a href="futuros-publicaciones.html">Publicaciones</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="footer-col-title">Institución</div>
+          <ul class="footer-links">
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="centro-tecnologico.html">Centro Tecnológico</a></li>
+            <li><a href="centro-biodegrabilidad.html">Centro Biodegradabilidad</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
           </ul>
         </div>
       </div>
-
-      <!-- Contenido principal derecha: intro -->
-      <div class="col-lg-9">
-        <p class="futuros-title">EL FUTURO <strong>EN UN PRESENTE ALTERADO</strong></p>
-        <p>Desde el Programa Futuros generamos contenidos en los que nos preguntamos sobre el futuro, <strong>durante este período lo hacemos desde un presente alterado</strong>.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 2: Humanidades (full width, background) -->
-  <div class="section-bg">
-    <div class="section-block">
-      <p class="futuros-title" style="color: #fff;">UNA MIRADA <strong>DESDE LAS HUMANIDADES</strong></p>
-      <p style="color: rgba(255,255,255,0.85);">Lxs autorxs del libro El futuro: miradas desde las Humanidades reflexionan sobre cómo pensar el futuro en la situación de pandemia del COVID-19.</p>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 3: Grilla de autores -->
-  <div class="authors-grid">
-    <div class="author-card">
-      <img src="assets/presente-alterado/yujnovsky.png" alt="Inés Yujnovsky">
-      <div class="author-overlay">Inés Yujnovsky</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/romero.png" alt="Walter Romero">
-      <div class="author-overlay">Walter Romero</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/catoggio.png" alt="Catoggio">
-      <div class="author-overlay">Catoggio</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/kozel.png" alt="Kozel">
-      <div class="author-overlay">Kozel</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/martinez.png" alt="Martínez">
-      <div class="author-overlay">Martínez</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/bergel.jpg" alt="Martín Bergel">
-      <div class="author-overlay">Martín Bergel</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/iturrieta.png" alt="Sandra Iturrieta">
-      <div class="author-overlay">Sandra Iturrieta</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/girardi.jpg" alt="Enzo Girardi">
-      <div class="author-overlay">Enzo Girardi</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/tennina.jpg" alt="Lucía Tennina">
-      <div class="author-overlay">Lucía Tennina</div>
-    </div>
-    <div class="author-card">
-      <img src="assets/presente-alterado/stefanoni.jpg" alt="Pablo Stefanoni">
-      <div class="author-overlay">Pablo Stefanoni</div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 4: Header Conversaciones -->
-  <div class="conv-header">
-    <h2>CONVERSACIONES</h2>
-    <p>Encuentros entre colegas para discutir sobre el futuro en un presente alterado.</p>
-  </div>
-
-  <!-- SECCIÓN 5: Lista de Conversaciones -->
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/calderon.png" alt="Fernando Calderón">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>Fernando Calderón reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 FUNINTEC · Universidad Nacional de San Martín</span>
+        <div class="footer-badges">
+          <span class="footer-badge">UVT</span><span class="footer-badge">CONICET</span>
+          <span class="footer-badge">MINCyT</span><span class="footer-badge">EEAE</span>
         </div>
       </div>
     </div>
-  </div>
+  </footer>
 
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/grimson.png" alt="Alejandro Grimson">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>Alejandro Grimson reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <style>
+    .col-lg-2-4 { width: 20%; }
+    @media (max-width: 991px) { .col-lg-2-4 { width: 33.333%; } }
+    @media (max-width: 575px) { .col-lg-2-4 { width: 50%; } }
+  </style>
 
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/grimson-santoro.jpg" alt="Grimson sobre Santoro">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>Alejandro Grimson reflexiona sobre el futuro en un presente alterado.</strong> Conversación con Andrés Kozel</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/delta.jpg" alt="El futuro del Delta del Paraná">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>El futuro del Delta del Paraná en un presente alterado.</strong> Conversan Rubén Quintana y Claudio Baigún</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/arte.jpg" alt="El futuro del arte">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>El futuro del arte desde este presente alterado.</strong> Conversan Laura Malosetti, Florencia Levy y Gabriel Baggio.</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="conversation-item">
-    <div class="row g-0">
-      <div class="col-md-5">
-        <img src="assets/presente-alterado/asua-kandus.jpg" alt="Miguel de Asúa y Patricia Kandus">
-      </div>
-      <div class="col-md-7">
-        <div class="conv-text">
-          <p><strong>Miguel de Asúa</strong> conversa con <strong>Patricia Kandus</strong> sobre la peste negra en relación al Covid-19.</p>
-          <a href="https://www.youtube.com/channel/UCEnD33qzynkQhjZ_O5a4-bw" class="btn-ver" target="_blank">Ver video</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div id="site-footer"></div>
-
-  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="components.js"></script>
-
-  <!-- JS menú hamburger -->
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuClose = document.getElementById('menu-close');
-    const fullscreenMenu = document.getElementById('fullscreen-menu');
-
-    menuToggle.addEventListener('click', function() {
-      fullscreenMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-
-    menuClose.addEventListener('click', function() {
-      fullscreenMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-
-    const submenus = document.querySelectorAll('.has-submenu > a');
-    submenus.forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const parent = this.parentElement;
-        parent.classList.toggle('open');
-      });
-    });
+    const nav = document.querySelector('.site-nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+    document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('fullscreen-menu').classList.add('active'));
+    document.getElementById('menu-close').addEventListener('click',  () => document.getElementById('fullscreen-menu').classList.remove('active'));
   </script>
 </body>
 </html>
