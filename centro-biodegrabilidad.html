@@ -15,7 +15,7 @@
     .site-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 20px 0;
-      background: linear-gradient(to bottom, rgba(4,10,30,0.6) 0%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(4,10,30,0.95) 0%, rgba(4,10,30,0.6) 55%, transparent 100%);
       transition: background 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.4s cubic-bezier(0.4,0,0.2,1),
                   box-shadow 0.5s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.5s ease;
     }
@@ -71,17 +71,20 @@
     .section-title { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; color: #0a1428; letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 40px; }
     .body-text { font-size: 17px; color: #3a4a6a; line-height: 1.8; margin-bottom: 20px; }
 
-    /* LIST */
-    .content-list { list-style: none; padding: 0; margin: 0; }
-    .content-list li {
-      font-size: 16px; color: #3a4a6a; line-height: 1.75;
-      padding: 18px 0; border-bottom: 1px solid #eef0f4;
-      padding-left: 24px; position: relative;
-    }
-    .content-list li::before {
-      content: ''; position: absolute; left: 0; top: 26px;
-      width: 8px; height: 8px; border-radius: 50%; background: #2ea3f2;
-    }
+    /* SERVICE BLOCKS */
+    .service-block { margin-bottom: 56px; }
+    .service-block:last-child { margin-bottom: 0; }
+    .service-block-title { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2ea3f2; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e8ecf4; }
+    .service-item { margin-bottom: 28px; }
+    .service-item-title { font-size: 16px; font-weight: 700; color: #0a1428; margin-bottom: 10px; }
+    .service-item p { font-size: 15px; color: #3a4a6a; line-height: 1.8; margin-bottom: 8px; }
+    .service-item p:last-child { margin-bottom: 0; }
+    .duration-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #2ea3f2; background: #f0f6ff; border: 1px solid #d0e4f7; border-radius: 100px; padding: 4px 12px; margin-top: 8px; }
+
+    /* VIDEO */
+    .video-section { padding: 80px 0; background: #f8f9fc; }
+    .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; }
+    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
     /* CONTACT CALLOUT */
     .contact-callout {
@@ -168,19 +171,79 @@
           <h2 class="section-title">Ciencia al servicio de los plásticos sustentables</h2>
         </div>
         <div class="col-lg-8">
-          <ul class="content-list">
-            <li>El centro es un emprendimiento conjunto del Instituto de Investigación e Ingeniería Ambiental (3iA) de la Universidad Nacional de San Martín (UNSAM), el Laboratorio de Polímeros y Materiales Compuestos del Departamento de Física de la Facultad de Ciencias Exactas y Naturales de la Universidad de Buenos Aires (LP&MC-FCEyN-UBA), UBATEC y FUNINTEC.</li>
-            <li>El manejo científico y tecnológico lo lleva adelante el 3IA y el LP&MC-FCEyN-UBA. El desarrollo de equipamiento lo realiza el Centro Tecnológico FUNINTEC (CENTEC). La gestión está a cargo de UBATEC y FUNINTEC.</li>
-            <li>Tiene como objetivo constituirse en un centro de referencia en ensayos de biodegradabilidad y compostabilidad, capacitación y asistencia técnica en materiales plásticos sustentables.</li>
-            <li>El Centro otorgará certificación de cumplimiento de la Norma IRAM 29422-1:2015 y sello de conformidad en el producto elaborado.</li>
-            <li>Cuenta con laboratorios para la determinación de la biodegradabilidad aeróbica última de los materiales plásticos bajo condiciones controladas de compostaje, según las Normas IRAM 29422-1:2015, ISO 14855-1:2005 y 14855-2:2007.</li>
-            <li>Brindará asistencia técnica en procesos de transformación y puesta a punto de equipamiento de planta, así como en la formulación de nuevos materiales biodegradables y evaluación de propiedades físico-químicas y mecánicas de materiales.</li>
-            <li>Dicta cursos de capacitación y en normativas.</li>
-          </ul>
+
+          <!-- MUESTRAS LÍQUIDAS -->
+          <div class="service-block">
+            <p class="service-block-title">Biodegradabilidad de Muestras Líquidas</p>
+
+            <div class="service-item">
+              <p class="service-item-title">Biodegradabilidad inmediata — ISO 10707</p>
+              <p>Aplica para sustancias orgánicas solubles. El inóculo de microorganismos se puede obtener de un agua superficial. Consiste en determinar el oxígeno consumido por los microorganismos al degradar el compuesto durante 28 días. Las mediciones de oxígeno usualmente se hacen con frecuencia semanal. El sistema de ensayo es un recipiente cerrado, que contiene el componente de prueba, microorganismos y medio con sales minerales. Se incuba en oscuridad a 20–25 ºC, sin agitación o aireación (sistema estático). Si se comprueba al menos 70% de biodegradabilidad, se considera biodegradable.</p>
+              <span class="duration-tag">Duración máxima: 1 mes</span>
+            </div>
+
+            <div class="service-item">
+              <p class="service-item-title">Biodegradabilidad intrínseca — ISO 9888 (Zahn-Wellens)</p>
+              <p>Aplica para sustancias orgánicas solubles. El inóculo se obtiene de lodos activados. El sistema es un recipiente cerrado y agitado (aireado) con el componente de prueba, microorganismos y medio con sales minerales, incubado a 20–25 ºC en oscuridad. Se toman muestras durante 28 días con frecuencia semanal para determinar COT (carbono orgánico total). Para una sustancia biodegradable se espera que el COT disminuya al menos un 70%.</p>
+              <span class="duration-tag">Duración máxima: 1 mes</span>
+            </div>
+          </div>
+
+          <!-- MUESTRAS SÓLIDAS -->
+          <div class="service-block">
+            <p class="service-block-title">Biodegradabilidad de Muestras Sólidas</p>
+
+            <div class="service-item">
+              <p class="service-item-title">Biodegradabilidad Cualitativa</p>
+              <p>Ensayo cualitativo de biodegradación de plástico en compostaje a escala reducida. Se lleva a cabo en frascos Schott de 1 L, con una mezcla de compost húmedo activo, perlita y agua, incubados a 52 ºC con flujo constante de aire. Para cada reactor se determina digitalmente el deterioro visual mediante fotografías semanales hasta la finalización del ensayo.</p>
+              <span class="duration-tag">Duración máxima: 3 meses</span>
+            </div>
+
+            <div class="service-item">
+              <p class="service-item-title">Biodegradabilidad aeróbica de sólidos — ISO 14855-1:2012</p>
+              <p>Determinación de la biodegradabilidad aeróbica final de materiales plásticos en condiciones controladas de compostaje mediante análisis del CO₂ desprendido. El inóculo consiste en compost maduro y estabilizado derivado de residuos sólidos urbanos. El CO₂ generado se determina por absorción en solución básica. La temperatura, aireación y humedad se monitorizan y controlan rigurosamente. Se considera biodegradable un material que alcanza el 70% de biodegradación en el tiempo de ensayo.</p>
+              <span class="duration-tag">Duración máxima: 6 meses</span>
+            </div>
+
+            <div class="service-item">
+              <p class="service-item-title">Biodegradabilidad anaeróbica de sólidos — ASTM 5511</p>
+              <p>Método estándar para determinar la biodegradabilidad anaeróbica de plásticos simulando condiciones de vertedero o digestión anaeróbica. Se realiza en medio anaeróbico con inoculantes de lodo digestor. Se mide la producción de biogás (metano y CO₂) para determinar la biodegradabilidad del material probado.</p>
+              <span class="duration-tag">Duración máxima: 60 días</span>
+            </div>
+          </div>
+
+          <!-- ENSAYOS COMPLEMENTARIOS -->
+          <div class="service-block">
+            <p class="service-block-title">Ensayos Complementarios — ISO 14855-1:2012</p>
+
+            <div class="service-item">
+              <p class="service-item-title">Microscopía óptica — Registro fotográfico</p>
+              <p>Cuantificación digital del deterioro visual de muestras provenientes del ensayo de biodegradabilidad mediante imágenes obtenidas con lupa Leica M165C equipada con cámara MSHot MDX10. Se observan y describen cambios estructurales y se cuantifican modificaciones en largo, ancho y grosor, comparando con el material sin tratar. Registro fotográfico semanal hasta finalización del ensayo.</p>
+              <span class="duration-tag">Duración máxima: 6 meses</span>
+            </div>
+
+            <div class="service-item">
+              <p class="service-item-title">Microscopía electrónica de barrido (SEM)</p>
+              <p>Imágenes del material en su estado original y en distintos estadios de degradación, utilizando microscopio FEI modelo 250. Evaluación de morfología (homogeneidad estructural, textura, fractura y porosidad) y de tipo fisicoquímico (composición elemental e identificación de posibles aditivos). Se presupuestan 2 hs de uso del microscopio por estadio. El plástico puede requerir preparado previo como metalizado (recubrimiento conductivo).</p>
+              <span class="duration-tag">Duración máxima: 6 meses</span>
+            </div>
+          </div>
+
           <div class="contact-callout">
             <p>¿Cómo vincularse con el centro?<br>A través de UBATEC: <a href="mailto:centrobio@ubatec.uba.ar">centrobio@ubatec.uba.ar</a></p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section">
+    <div class="container">
+      <p class="section-label">Video</p>
+      <h2 style="font-size:clamp(22px,3vw,32px);font-weight:800;color:#0a1428;letter-spacing:-0.5px;margin-bottom:32px;">Centro de Biodegradabilidad y Compostabilidad de Plásticos</h2>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/YrKFBrEitPw" title="Centro de Biodegradabilidad" allowfullscreen></iframe>
       </div>
     </div>
   </section>
